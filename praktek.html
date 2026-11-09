@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBT TKA — Neumorphism</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============ NEUMORPHISM TOKENS ============ */
+:root{
+  --bg:#E0E5EC;
+  --text:#3D4452;
+  --muted:#8A94A6;
+  --accent:#6C8CFF;
+  --accent-d:#5570E0;
+  --success:#6BCB77;
+  --warning:#F5B841;
+  --danger:#EF5B5B;
+  --shadow-out:6px 6px 12px #BEC8D2,-6px -6px 12px #FFFFFF;
+  --shadow-out-sm:4px 4px 8px #BEC8D2,-4px -4px 8px #FFFFFF;
+  --shadow-out-lg:10px 10px 20px #BEC8D2,-10px -10px 20px #FFFFFF;
+  --shadow-in:inset 4px 4px 8px #BEC8D2,inset -4px -4px 8px #FFFFFF;
+  --shadow-in-sm:inset 2px 2px 4px #BEC8D2,inset -2px -2px 4px #FFFFFF;
+  --radius:16px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:'Nunito',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.5;
+}
+
+/* ============ PAGES ============ */
+.page{display:none;min-height:100vh;padding:24px}
+.page.active{display:block}
+.page.center.active{display:flex;align-items:center;justify-content:center}
+.page.exam.active{display:flex;flex-direction:column;gap:20px;max-width:1100px;margin:0 auto}
+
+/* ============ LOGIN ============ */
+.login-container{
+  background:var(--bg);
+  box-shadow:var(--shadow-out-lg);
+  border-radius:32px;
+  padding:48px 40px;
+  width:100%;
+  max-width:440px;
+}
+.login-logo{font-size:56px;text-align:center;margin-bottom:8px}
+.login-container h1{font-size:26px;text-align:center;font-weight:800;letter-spacing:1px}
+.login-container .subtitle{text-align:center;color:var(--muted);margin-bottom:32px;font-size:14px}
+
+.form-group{margin-bottom:18px}
+.form-group label{display:block;margin-bottom:8px;font-weight:700;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.form-group input{
+  width:100%;padding:16px 20px;border-radius:14px;border:none;
+  background:var(--bg);box-shadow:var(--shadow-in);
+  font-family:inherit;font-size:16px;color:var(--text);outline:none;
+  transition:box-shadow .2s;
+}
+.form-group input:focus{box-shadow:var(--shadow-in),0 0 0 2px var(--accent)}
+.form-group input::placeholder{color:#A5AEBD}
+
+.btn-primary{
+  width:100%;padding:18px;border-radius:16px;border:none;cursor:pointer;
+  background:var(--accent);color:#fff;font-family:inherit;font-weight:800;
+  font-size:16px;letter-spacing:1px;margin-top:8px;
+  box-shadow:4px 4px 12px rgba(108,140,255,.4),-4px -4px 12px rgba(255,255,255,.9);
+  transition:transform .15s,box-shadow .15s;
+}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-primary:active{transform:translateY(0)}
+
+.error-msg{
+  display:none;padding:12px 16px;border-radius:12px;
+  background:rgba(239,91,91,.1);color:var(--danger);
+  font-size:14px;font-weight:700;margin-bottom:16px;
+}
+.hint{
+  margin-top:24px;padding:16px;border-radius:12px;
+  box-shadow:var(--shadow-in-sm);
+  font-size:12px;color:var(--muted);line-height:1.7;
+}
+.hint strong{color:var(--text);display:block;margin-bottom:4px}
+
+/* ============ PORTAL ============ */
+.portal-wrap{max-width:1100px;margin:0 auto;padding-top:24px}
+.portal-title{font-size:24px;font-weight:800;margin-bottom:8px}
+.portal-user{color:var(--muted);font-size:14px;margin-bottom:24px}
+.portal-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:768px){.portal-grid{grid-template-columns:1fr}}
+
+.portal-card{
+  background:var(--bg);box-shadow:var(--shadow-out-lg);
+  border-radius:24px;padding:28px;
+}
+.portal-card h3{font-size:16px;margin-bottom:16px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted)}
+.rules-list{list-style:none}
+.rules-list li{
+  padding:10px 0;font-size:14px;border-bottom:1px dashed rgba(0,0,0,.06);
+}
+.rules-list li:last-child{border-bottom:none}
+.checkbox-wrap{
+  display:flex;align-items:center;gap:12px;margin-top:20px;
+  padding:16px;border-radius:12px;box-shadow:var(--shadow-in-sm);cursor:pointer;
+}
+.checkbox-wrap input{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
+.checkbox-wrap label{font-weight:700;font-size:14px;cursor:pointer;flex:1}
+
+.info-row{display:flex;justify-content:space-between;padding:10px 0;font-size:14px;border-bottom:1px dashed rgba(0,0,0,.06)}
+.info-row:last-of-type{border-bottom:none;margin-bottom:20px}
+.info-row span:first-child{color:var(--muted)}
+.info-row span:last-child{font-weight:700}
+
+/* ============ EXAM HEADER ============ */
+.exam-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand,.q-indicator,.btn-pill{
+  background:var(--bg);box-shadow:var(--shadow-out);
+  border-radius:16px;padding:14px 22px;border:none;
+  font-family:inherit;font-weight:700;color:var(--text);
+  font-size:14px;transition:all .15s;white-space:nowrap;
+}
+.brand{cursor:default;letter-spacing:.5px}
+.q-indicator{cursor:default;display:flex;gap:8px;align-items:center}
+.btn-pill{cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.btn-pill:hover{box-shadow:var(--shadow-out-sm);transform:translateY(1px)}
+.btn-pill:active,.btn-pill.active{box-shadow:var(--shadow-in);transform:translateY(2px)}
+.btn-pill:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+.badge{
+  background:var(--accent);color:#fff;font-size:11px;
+  padding:2px 8px;border-radius:99px;font-weight:800;
+}
+.flag-icon{font-size:16px;margin-left:4px}
+
+/* ============ QUESTION CARD ============ */
+.question-card{
+  background:var(--bg);box-shadow:var(--shadow-out-lg);
+  border-radius:24px;padding:32px;flex:1;min-height:0;
+}
+.question-text{font-size:20px;font-weight:700;line-height:1.5;margin-bottom:24px;color:var(--text)}
+.options{display:flex;flex-direction:column;gap:12px}
+
+.option{
+  padding:16px 20px;border-radius:16px;background:var(--bg);
+  box-shadow:var(--shadow-out);cursor:pointer;
+  display:flex;gap:14px;align-items:center;
+  font-size:15px;transition:all .15s;
+}
+.option:hover{box-shadow:var(--shadow-out-sm);transform:translateY(1px)}
+.option.selected{box-shadow:var(--shadow-in);color:var(--accent-d);font-weight:700}
+.option .letter{
+  width:30px;height:30px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bg);box-shadow:var(--shadow-out-sm);
+  font-weight:800;font-size:13px;
+}
+.option.selected .letter{box-shadow:var(--shadow-in);color:var(--accent-d)}
+
+.exam-actions{display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap}
+
+/* ============ DRAWER (PANEL SOAL) ============ */
+.drawer-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.35);
+  opacity:0;pointer-events:none;transition:opacity .3s;z-index:99;
+}
+.drawer-overlay.show{opacity:1;pointer-events:all}
+
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;width:360px;max-width:90vw;
+  background:var(--bg);padding:24px;z-index:100;
+  box-shadow:-10px 0 30px rgba(0,0,0,.15);
+  transform:translateX(100%);transition:transform .3s ease;
+  display:flex;flex-direction:column;gap:20px;overflow-y:auto;
+}
+.drawer.open{transform:translateX(0)}
+
+.drawer-header{display:flex;justify-content:space-between;align-items:center}
+.drawer-header h3{font-size:16px;letter-spacing:1px}
+.drawer-close{
+  width:36px;height:36px;border-radius:12px;border:none;cursor:pointer;
+  background:var(--bg);box-shadow:var(--shadow-out-sm);
+  font-family:inherit;font-size:16px;font-weight:800;color:var(--text);
+}
+.drawer-close:active{box-shadow:var(--shadow-in)}
+
+.grid-numbers{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.grid-cell{
+  aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+  border-radius:12px;background:var(--bg);box-shadow:var(--shadow-out-sm);
+  font-weight:800;font-size:13px;cursor:pointer;
+  transition:all .15s;border:2px solid transparent;
+}
+.grid-cell:hover{transform:translateY(-2px)}
+.grid-cell.sudah{background:var(--accent);color:#fff}
+.grid-cell.ragu{background:var(--warning);color:#fff}
+.grid-cell.aktif{box-shadow:var(--shadow-in);border-color:var(--accent)}
+
+.legend{display:flex;flex-direction:column;gap:8px;font-size:13px;padding-top:8px;border-top:1px dashed rgba(0,0,0,.08)}
+.legend>div{display:flex;align-items:center;gap:10px}
+.legend .dot{width:12px;height:12px;border-radius:50%}
+.dot.belum{background:#BEC8D2}
+.dot.sudah{background:var(--accent)}
+.dot.ragu{background:var(--warning)}
+
+.btn-submit{
+  padding:18px;border-radius:16px;border:none;cursor:pointer;
+  background:var(--accent);color:#fff;font-family:inherit;
+  font-weight:800;font-size:15px;letter-spacing:1px;
+  box-shadow:4px 4px 12px rgba(108,140,255,.4),-4px -4px 12px rgba(255,255,255,.9);
+  transition:transform .15s;
+  margin-top:auto;
+}
+.btn-submit:hover{transform:translateY(-2px)}
+.btn-submit:active{transform:translateY(0)}
+
+/* ============ MODAL ============ */
+.modal{
+  position:fixed;inset:0;background:rgba(0,0,0,.4);
+  display:none;align-items:center;justify-content:center;
+  z-index:200;padding:24px;
+}
+.modal.show{display:flex}
+.modal-content{
+  background:var(--bg);border-radius:24px;padding:32px;
+  box-shadow:var(--shadow-out-lg);max-width:480px;width:100%;
+}
+.modal-content h2{font-size:18px;margin-bottom:12px;letter-spacing:.5px}
+.modal-content p{color:var(--muted);font-size:14px;margin-bottom:20px}
+
+.status-box{
+  display:flex;flex-direction:column;gap:10px;padding:20px;
+  border-radius:14px;box-shadow:var(--shadow-in);margin-bottom:20px;
+}
+.status-box>div{display:flex;justify-content:space-between;font-size:14px}
+.status-box strong{color:var(--text)}
+
+.warning-msg{
+  display:none;padding:14px 16px;border-radius:12px;
+  background:rgba(245,184,65,.15);color:#A87A1C;
+  font-size:13px;font-weight:700;margin-bottom:20px;line-height:1.6;
+}
+
+.modal-actions{display:flex;gap:12px;justify-content:flex-end}
+.modal-actions .btn-pill,.modal-actions .btn-submit{margin-top:0}
+
+/* ============ RESULT ============ */
+.result-card{
+  background:var(--bg);box-shadow:var(--shadow-out-lg);
+  border-radius:32px;padding:48px;max-width:520px;width:100%;text-align:center;
+}
+.result-icon{font-size:64px;margin-bottom:12px}
+.result-card h1{font-size:24px;margin-bottom:32px;letter-spacing:1px}
+.result-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
+.stat-box{padding:20px;border-radius:16px;box-shadow:var(--shadow-in)}
+.stat-box .label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.stat-box .value{font-size:28px;font-weight:800;color:var(--accent-d)}
+</style>
+</head>
+<body>
+
+<!-- ============ HALAMAN LOGIN ============ -->
+<div class="page center active" id="page-login">
+  <div class="login-container">
+    <div class="login-logo">🎓</div>
+    <h1>SISTEM CBT TKA</h1>
+    <p class="subtitle">Selamat datang di portal ujian</p>
+
+    <div class="error-msg" id="login-error"></div>
+
+    <div class="form-group">
+      <label>NISN</label>
+      <input type="text" id="input-nisn" placeholder="Masukkan 10 digit NISN" maxlength="10" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="input-password" placeholder="••••••••">
+    </div>
+    <button class="btn-primary" id="btn-login">MASUK →</button>
+
+    <div class="hint">
+      <strong>🔑 Akun Uji Coba:</strong>
+      NISN: 0012345678 / 0098765432 / 0055566677<br>
+      Password: <b>test123</b>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HALAMAN PORTAL ============ -->
+<div class="page" id="page-portal">
+  <div class="portal-wrap">
+    <h2 class="portal-title">📋 Portal Ujian</h2>
+    <p class="portal-user">👤 <span id="portal-name">-</span> · 🏫 <span id="portal-school">-</span></p>
+
+    <div class="portal-grid">
+      <div class="portal-card">
+        <h3>Peraturan Ujian</h3>
+        <ul class="rules-list">
+          <li>1. Dilarang membuka tab atau aplikasi lain.</li>
+          <li>2. Kamera wajib menyala selama ujian.</li>
+          <li>3. Dilarang keluar dari layar ujian.</li>
+          <li>4. Waktu berjalan otomatis saat ujian dimulai.</li>
+          <li>5. Ujian dikumpulkan otomatis saat waktu habis.</li>
+        </ul>
+        <label class="checkbox-wrap">
+          <input type="checkbox" id="checkbox-agree">
+          <span>Saya telah membaca dan menyetujui semua peraturan</span>
+        </label>
+      </div>
+
+      <div class="portal-card">
+        <h3>Keterangan Soal</h3>
+        <div class="info-row"><span>Total Soal</span><span id="portal-total">-</span></div>
+        <div class="info-row"><span>Tipe</span><span>Pilihan Ganda</span></div>
+        <div class="info-row"><span>Mata Pelajaran</span><span>Biologi</span></div>
+
+        <div class="form-group" style="margin-top:24px">
+          <label>🔑 Token Ujian</label>
+          <input type="text" id="input-token" placeholder="Masukkan token" autocomplete="off">
+        </div>
+        <button class="btn-primary" id="btn-start">MULAI UJIAN →</button>
+
+        <div class="hint" style="margin-top:16px">
+          <strong>Token Uji Coba:</strong>
+          <b>TKA2025</b>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HALAMAN EXAM (1A) ============ -->
+<div class="page exam" id="page-exam">
+  <div class="exam-header">
+    <div class="brand">CBT TKA</div>
+    <div class="q-indicator">
+      Soal <span id="q-current">1</span> dari <span id="q-total">15</span>
+      <span class="flag-icon" id="q-flag" style="display:none">🚩</span>
+    </div>
+    <button class="btn-pill" id="btn-open-panel">
+      <span>☰</span> SOAL
+      <span class="badge" id="progress-badge">0/15</span>
+    </button>
+  </div>
+
+  <div class="question-card">
+    <div class="question-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+  </div>
+
+  <div class="exam-actions">
+    <button class="btn-pill" id="btn-prev">← Kembali</button>
+    <button class="btn-pill" id="btn-flag">🚩 Tandai</button>
+    <button class="btn-pill" id="btn-next">Lanjut →</button>
+  </div>
+</div>
+
+<!-- ============ HALAMAN HASIL ============ -->
+<div class="page center" id="page-result">
+  <div class="result-card">
+    <div class="result-icon">✅</div>
+    <h1>UJIAN SELESAI</h1>
+    <div class="result-stats">
+      <div class="stat-box">
+        <div class="label">Skor</div>
+        <div class="value" id="result-score">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="label">Terjawab</div>
+        <div class="value" id="result-answered">0/0</div>
+      </div>
+      <div class="stat-box">
+        <div class="label">Benar</div>
+        <div class="value" id="result-correct">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="label">Ditandai</div>
+        <div class="value" id="result-ragu">0</div>
+      </div>
+    </div>
+    <button class="btn-primary" id="btn-logout">Kembali ke Login</button>
+  </div>
+</div>
+
+<!-- ============ DRAWER / PANEL SOAL ============ -->
+<div class="drawer-overlay" id="drawer-overlay"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-header">
+    <h3>DAFTAR SOAL</h3>
+    <button class="drawer-close" id="btn-close-panel">✕</button>
+  </div>
+  <div class="grid-numbers" id="grid-numbers"></div>
+  <div class="legend">
+    <div><span class="dot belum"></span> Belum: <b id="count-belum">0</b></div>
+    <div><span class="dot sudah"></span> Sudah: <b id="count-sudah">0</b></div>
+    <div><span class="dot ragu"></span> Ragu: <b id="count-ragu">0</b></div>
+  </div>
+  <button class="btn-submit" id="btn-submit-exam">SUBMIT UJIAN</button>
+</aside>
+
+<!-- ============ MODAL SUBMIT ============ -->
+<div class="modal" id="modal-submit">
+  <div class="modal-content">
+    <h2>📤 KONFIRMASI SUBMIT</h2>
+    <p>Anda akan mengumpulkan ujian ini.</p>
+    <div class="status-box">
+      <div><span>✅ Terjawab</span><strong id="m-terjawab">0</strong></div>
+      <div><span>⬜ Belum</span><strong id="m-belum">0</strong></div>
+      <div><span>🟧 Ragu</span><strong id="m-ragu">0</strong></div>
+    </div>
+    <div class="warning-msg" id="m-warning"></div>
+    <div class="modal-actions">
+      <button class="btn-pill" id="btn-cancel-submit">Batal</button>
+      <button class="btn-submit" id="btn-confirm-submit" style="padding:14px 28px;width:auto">Ya, Submit ✓</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============ DUMMY DATA ============ */
+const USERS = [
+  { nisn: '0012345678', password: 'test123', nama: 'Ahmad Fauzi', sekolah: 'SMAN 1 Jakarta' },
+  { nisn: '0098765432', password: 'test123', nama: 'Budi Santoso', sekolah: 'SMAN 1 Jakarta' },
+  { nisn: '0055566677', password: 'test123', nama: 'Citra Dewi', sekolah: 'SMAN 2 Bandung' },
+];
+
+const QUESTIONS = [
+  { text: 'Apa yang dimaksud dengan fotosintesis?', correct: 1, options: [
+    'Proses pernapasan tumbuhan',
+    'Proses pembuatan makanan menggunakan cahaya matahari',
+    'Proses penguapan air dari daun',
+    'Proses penyerapan mineral dari tanah',
+    'Proses pertumbuhan akar tanaman'
+  ]},
+  { text: 'Organel sel yang berperan dalam fotosintesis adalah...', correct: 2, options: [
+    'Mitokondria', 'Ribosom', 'Kloroplas', 'Nukleus', 'Vakuola'
+  ]},
+  { text: 'Pigmen hijau yang berperan menangkap cahaya pada fotosintesis disebut...', correct: 1, options: [
+    'Karotenoid', 'Klorofil', 'Xantofil', 'Fikoeritrin', 'Antosianin'
+  ]},
+  { text: 'Reaksi terang fotosintesis berlangsung di...', correct: 0, options: [
+    'Membran tilakoid', 'Stroma', 'Sitoplasma', 'Nukleus', 'Vakuola'
+  ]},
+  { text: 'Reaksi gelap (siklus Calvin) berlangsung di...', correct: 1, options: [
+    'Membran tilakoid', 'Stroma', 'Sitoplasma', 'Nukleus', 'Ribosom'
+  ]},
+  { text: 'Gas yang diserap tumbuhan untuk fotosintesis adalah...', correct: 2, options: [
+    'Oksigen (O₂)', 'Nitrogen (N₂)', 'Karbon dioksida (CO₂)', 'Hidrogen (H₂)', 'Metana (CH₄)'
+  ]},
+  { text: 'Gas yang dihasilkan dari fotosintesis adalah...', correct: 0, options: [
+    'Oksigen (O₂)', 'Karbon dioksida (CO₂)', 'Nitrogen (N₂)', 'Hidrogen (H₂)', 'Karbon monoksida (CO)'
+  ]},
+  { text: 'Faktor yang TIDAK mempengaruhi laju fotosintesis adalah...', correct: 3, options: [
+    'Intensitas cahaya', 'Kadar CO₂', 'Suhu', 'Warna tanah', 'Kadar air'
+  ]},
+  { text: 'Hasil akhir fotosintesis adalah...', correct: 1, options: [
+    'Glukosa dan CO₂', 'Glukosa dan O₂', 'O₂ dan H₂O', 'CO₂ dan H₂O', 'Glukosa dan H₂O'
+  ]},
+  { text: 'Persamaan reaksi fotosintesis yang benar adalah...', correct: 2, options: [
+    '6CO₂ + 6H₂O → C₆H₁₂O₆ + O₂',
+    '6CO₂ + 6H₂O → C₆H₁₂O₆',
+    '6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂',
+    'CO₂ + H₂O → C₆H₁₂O₆ + O₂',
+    '6O₂ + 6H₂O → C₆H₁₂O₆ + 6CO₂'
+  ]},
+  { text: 'ATP pada fotosintesis terutama dihasilkan dari proses...', correct: 0, options: [
+    'Reaksi terang', 'Reaksi gelap', 'Glikolisis', 'Siklus Krebs', 'Fermentasi'
+  ]},
+  { text: 'NADPH pada fotosintesis berfungsi sebagai...', correct: 1, options: [
+    'Menyerap cahaya',
+    'Pemberi elektron/hidrogen untuk siklus Calvin',
+    'Penghasil O₂',
+    'Penyerap CO₂',
+    'Penyimpan glukosa'
+  ]},
+  { text: 'Tumbuhan C4 memiliki adaptasi berupa...', correct: 2, options: [
+    'Membuka stomata siang hari',
+    'Tidak memerlukan cahaya',
+    'Mengikat CO₂ jadi senyawa 4-C di mesofil, diproses di sel bundle sheath',
+    'Hanya tumbuh di gurun',
+    'Tidak memiliki klorofil'
+  ]},
+  { text: 'Klorofil paling banyak menyerap cahaya pada spektrum...', correct: 0, options: [
+    'Merah dan biru', 'Hijau dan kuning', 'Hijau saja', 'Ungu dan merah', 'Semua spektrum sama'
+  ]},
+  { text: 'Fotosintesis terjadi pada bagian tumbuhan terutama di...', correct: 1, options: [
+    'Akar', 'Daun (jaringan palisade & spons)', 'Batang kayu', 'Bunga', 'Buah'
+  ]},
+];
+
+const LETTERS = ['A','B','C','D','E'];
+
+/* ============ STATE ============ */
+const State = {
+  user: null,
+  currentQ: 0,
+  answers: {},
+  flags: {},
+};
+
+/* ============ HELPERS ============ */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+/* ============ LOGIN ============ */
+function doLogin() {
+  const nisn = document.getElementById('input-nisn').value.trim();
+  const pass = document.getElementById('input-password').value;
+  const errEl = document.getElementById('login-error');
+
+  if (!nisn || !pass) {
+    errEl.textContent = 'NISN dan password wajib diisi';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  const user = USERS.find(u => u.nisn === nisn && u.password === pass);
+  if (!user) {
+    errEl.textContent = 'NISN atau password salah';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  errEl.style.display = 'none';
+  State.user = user;
+
+  document.getElementById('portal-name').textContent = user.nama;
+  document.getElementById('portal-school').textContent = user.sekolah;
+  document.getElementById('portal-total').textContent = QUESTIONS.length;
+
+  showPage('page-portal');
+}
+
+/* ============ START EXAM ============ */
+function startExam() {
+  const agree = document.getElementById('checkbox-agree').checked;
+  const token = document.getElementById('input-token').value.trim().toUpperCase();
+
+  if (!agree) {
+    alert('Silakan centang "Saya setuju" terlebih dahulu.');
+    return;
+  }
+  if (token !== 'TKA2025') {
+    alert('Token tidak valid.\nGunakan token uji coba: TKA2025');
+    return;
+  }
+
+  State.currentQ = 0;
+  State.answers = {};
+  State.flags = {};
+
+  document.getElementById('q-total').textContent = QUESTIONS.length;
+  renderExam();
+  showPage('page-exam');
+}
+
+/* ============ RENDER EXAM ============ */
+function renderExam() {
+  const idx = State.currentQ;
+  const q = QUESTIONS[idx];
+
+  document.getElementById('q-current').textContent = idx + 1;
+
+  const flagEl = document.getElementById('q-flag');
+  flagEl.style.display = State.flags[idx] ? 'inline' : 'none';
+
+  document.getElementById('q-text').textContent = q.text;
+
+  const optionsEl = document.getElementById('options');
+  optionsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option' + (State.answers[idx] === i ? ' selected' : '');
+    div.innerHTML = `<span class="letter">${LETTERS[i]}</span><span>${opt}</span>`;
+    div.addEventListener('click', () => {
+      State.answers[idx] = i;
+      renderExam();
+    });
+    optionsEl.appendChild(div);
+  });
+
+  document.getElementById('btn-prev').disabled = idx === 0;
+  document.getElementById('btn-next').disabled = idx === QUESTIONS.length - 1;
+
+  const flagBtn = document.getElementById('btn-flag');
+  flagBtn.classList.toggle('active', !!State.flags[idx]);
+  flagBtn.innerHTML = State.flags[idx] ? '🚩 Ditandai' : '🚩 Tandai';
+
+  renderGrid();
+}
+
+/* ============ RENDER GRID (PANEL) ============ */
+function renderGrid() {
+  const grid = document.getElementById('grid-numbers');
+  grid.innerHTML = '';
+
+  let sudah = 0, ragu = 0;
+
+  QUESTIONS.forEach((_, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'grid-cell';
+    cell.textContent = i + 1;
+
+    if (State.answers[i] !== undefined) { cell.classList.add('sudah'); sudah++; }
+    if (State.flags[i]) { cell.classList.add('ragu'); ragu++; }
+    if (i === State.currentQ) cell.classList.add('aktif');
+
+    cell.addEventListener('click', () => {
+      State.currentQ = i;
+      renderExam();
+      closeDrawer();
+    });
+
+    grid.appendChild(cell);
+  });
+
+  document.getElementById('count-sudah').textContent = sudah;
+  document.getElementById('count-ragu').textContent = ragu;
+  document.getElementById('count-belum').textContent = QUESTIONS.length - sudah;
+  document.getElementById('progress-badge').textContent = `${sudah}/${QUESTIONS.length}`;
+}
+
+/* ============ NAVIGASI ============ */
+function prevQuestion() {
+  if (State.currentQ > 0) { State.currentQ--; renderExam(); }
+}
+function nextQuestion() {
+  if (State.currentQ < QUESTIONS.length - 1) { State.currentQ++; renderExam(); }
+}
+function toggleFlag() {
+  State.flags[State.currentQ] = !State.flags[State.currentQ];
+  renderExam();
+}
+
+/* ============ DRAWER ============ */
+function openDrawer() {
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawer-overlay').classList.add('show');
+  renderGrid();
+}
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('drawer-overlay').classList.remove('show');
+}
+
+/* ============ SUBMIT ============ */
+function openSubmitModal() {
+  closeDrawer();
+
+  const sudah = Object.keys(State.answers).length;
+  const belum = QUESTIONS.length - sudah;
+  const ragu = Object.keys(State.flags).filter(k => State.flags[k]).length;
+
+  document.getElementById('m-terjawab').textContent = sudah;
+  document.getElementById('m-belum').textContent = belum;
+  document.getElementById('m-ragu').textContent = ragu;
+
+  const warnEl = document.getElementById('m-warning');
+  if (belum > 0) {
+    const unanswered = QUESTIONS.map((_, i) => i + 1).filter(n => State.answers[n - 1] === undefined);
+    warnEl.innerHTML = `⚠️ Masih ada <b>${belum}</b> soal belum dijawab!<br>Nomor: ${unanswered.join(', ')}`;
+    warnEl.style.display = 'block';
+  } else {
+    warnEl.style.display = 'none';
+  }
+
+  document.getElementById('modal-submit').classList.add('show');
+}
+function closeSubmitModal() {
+  document.getElementById('modal-submit').classList.remove('show');
+}
+
+function submitExam() {
+  closeSubmitModal();
+
+  const sudah = Object.keys(State.answers).length;
+  let correct = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (State.answers[i] === q.correct) correct++;
+  });
+  const score = Math.round((correct / QUESTIONS.length) * 100);
+  const ragu = Object.keys(State.flags).filter(k => State.flags[k]).length;
+
+  document.getElementById('result-score').textContent = score;
+  document.getElementById('result-answered').textContent = `${sudah}/${QUESTIONS.length}`;
+  document.getElementById('result-correct').textContent = correct;
+  document.getElementById('result-ragu').textContent = ragu;
+
+  showPage('page-result');
+}
+
+function logout() {
+  State.user = null;
+  State.answers = {};
+  State.flags = {};
+  State.currentQ = 0;
+  document.getElementById('input-nisn').value = '';
+  document.getElementById('input-password').value = '';
+  document.getElementById('input-token').value = '';
+  document.getElementById('checkbox-agree').checked = false;
+  showPage('page-login');
+}
+
+/* ============ EVENT LISTENERS ============ */
+document.getElementById('btn-login').addEventListener('click', doLogin);
+document.getElementById('input-password').addEventListener('keypress', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+document.getElementById('btn-start').addEventListener('click', startExam);
+
+document.getElementById('btn-open-panel').addEventListener('click', openDrawer);
+document.getElementById('btn-close-panel').addEventListener('click', closeDrawer);
+document.getElementById('drawer-overlay').addEventListener('click', closeDrawer);
+document.getElementById('btn-submit-exam').addEventListener('click', openSubmitModal);
+
+document.getElementById('btn-prev').addEventListener('click', prevQuestion);
+document.getElementById('btn-next').addEventListener('click', nextQuestion);
+document.getElementById('btn-flag').addEventListener('click', toggleFlag);
+
+document.getElementById('btn-confirm-submit').addEventListener('click', submitExam);
+document.getElementById('btn-cancel-submit').addEventListener('click', closeSubmitModal);
+document.getElementById('btn-logout').addEventListener('click', logout);
+
+/* ============ KEYBOARD SHORTCUT ============ */
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('page-exam').classList.contains('active')) return;
+  if (document.getElementById('drawer').classList.contains('open')) {
+    if (e.key === 'Escape') closeDrawer();
+    return;
+  }
+
+  if (e.key === 'ArrowLeft') prevQuestion();
+  if (e.key === 'ArrowRight') nextQuestion();
+  if (['1','2','3','4','5'].includes(e.key)) {
+    State.answers[State.currentQ] = parseInt(e.key) - 1;
+    renderExam();
+  }
+});
+</script>
+</body>
+</html>
