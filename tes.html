@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CBT TKA — Full Screen Watermark</title>
+<title>CBT TKA — Final Version</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
-   DESIGN TOKENS — NEUMORPHISM
+   DESIGN TOKENS — NEUMORPHISM (LIGHT & DARK)
    ============================================================ */
 :root {
   --bg:          #E0E5EC;
@@ -29,15 +29,39 @@
   --radius: 18px;
   --radius-lg: 24px;
   --radius-sm: 12px;
+
+  /* Skala Font */
+  --font-base: 16px;
 }
+
+/* Mode Gelap */
+body.dark-mode {
+  --bg:          #1E2126;
+  --text:        #E2E8F0;
+  --text-muted:  #94A3B8;
+  --accent:      #6C8CFF;
+  --accent-dark: #86A4FF; /* Lebih terang di dark mode */
+  
+  --shadow-out:    6px 6px 12px #141619, -6px -6px 12px #282C33;
+  --shadow-out-sm: 4px 4px 8px #141619, -4px -4px 8px #282C33;
+  --shadow-out-lg: 10px 10px 20px #141619, -10px -10px 20px #282C33;
+  --shadow-in:     inset 4px 4px 8px #141619, inset -4px -4px 8px #282C33;
+  --shadow-in-sm:  inset 2px 2px 5px #141619, inset -2px -2px 5px #282C33;
+}
+
+body.font-small  { --font-base: 14px; }
+body.font-normal { --font-base: 16px; }
+body.font-large  { --font-base: 18px; }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: 'Nunito', system-ui, sans-serif;
   background: var(--bg);
   color: var(--text);
+  font-size: var(--font-base);
   min-height: 100vh;
   overflow: hidden;
+  transition: background 0.3s, color 0.3s;
 }
 
 /* ============================================================
@@ -73,7 +97,7 @@ body {
 .btn {
   font-family: inherit;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 1rem;
   border: none;
   border-radius: var(--radius);
   padding: 14px 24px;
@@ -93,7 +117,7 @@ body {
 .btn-primary {
   background: linear-gradient(135deg, var(--accent), var(--accent-dark));
   color: #fff;
-  box-shadow: 4px 4px 10px rgba(74,110,224,.4), -2px -2px 6px #FFFFFF;
+  box-shadow: 4px 4px 10px rgba(74,110,224,.4), -2px -2px 6px var(--bg);
 }
 .btn-primary:active { box-shadow: inset 3px 3px 8px rgba(0,0,0,.2); }
 .btn-block { width: 100%; }
@@ -101,18 +125,32 @@ body {
   background: linear-gradient(135deg, #EF4444, #DC2626);
   color: #fff;
 }
+
+/* Kontrol Kanan Atas (Dark Mode & Font) */
+.top-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.icon-btn {
+  width: 44px; height: 44px; border-radius: 50%; background: var(--bg);
+  box-shadow: var(--shadow-out-sm); border: none; cursor: pointer; 
+  font-size: 1.2rem; color: var(--text); display: flex; align-items: center; justify-content: center;
+}
+.icon-btn:active { box-shadow: var(--shadow-in-sm); }
+
 .input {
-  width: 100%; font-family: inherit; font-size: 15px; font-weight: 600;
+  width: 100%; font-family: inherit; font-size: 1rem; font-weight: 600;
   color: var(--text); background: var(--bg); border: none; border-radius: var(--radius);
   padding: 14px 18px; box-shadow: var(--shadow-in); outline: none;
 }
 .input::placeholder { color: var(--text-muted); font-weight: 400; }
 .input:focus { box-shadow: var(--shadow-in), 0 0 0 2px var(--accent); }
 .label {
-  font-size: 13px; font-weight: 700; color: var(--text-muted);
+  font-size: 0.85rem; font-weight: 700; color: var(--text-muted);
   text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; display: block;
 }
-.err-msg { font-size: 13px; color: var(--danger); font-weight: 700; margin-top: 8px; display: none; }
+.err-msg { font-size: 0.85rem; color: var(--danger); font-weight: 700; margin-top: 8px; display: none; }
 .err-msg.show { display: block; }
 
 /* ============================================================
@@ -129,32 +167,24 @@ body {
   background: var(--bg); box-shadow: var(--shadow-out);
   display: flex; align-items: center; justify-content: center; font-size: 34px;
 }
-.brand h1 { font-size: 22px; font-weight: 800; letter-spacing: .5px; }
-.brand p { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+.brand h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: .5px; }
+.brand p { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
 .field { margin-bottom: 20px; }
 .note {
-  margin-top: 24px; font-size: 12px; color: var(--text-muted);
+  margin-top: 24px; font-size: 0.8rem; color: var(--text-muted);
   text-align: center; line-height: 1.5; padding: 12px;
   border-radius: var(--radius-sm); box-shadow: var(--shadow-in-sm);
 }
-.lock-icon { background: linear-gradient(135deg, #FECACA, #FCA5A5) !important; color: #DC2626 !important; }
-.lock-title { color: #DC2626 !important; }
 
 /* ============================================================
    PORTAL
    ============================================================ */
 .topbar {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 20px; border-radius: var(--radius); background: var(--bg);
+  padding: 16px 24px; border-radius: var(--radius); background: var(--bg);
   box-shadow: var(--shadow-out-sm); margin-bottom: 24px;
 }
-.topbar-title { font-weight: 800; font-size: 16px; }
-.topbar-actions { display: flex; gap: 10px; align-items: center; }
-.icon-btn {
-  width: 40px; height: 40px; border-radius: 50%; background: var(--bg);
-  box-shadow: var(--shadow-out-sm); border: none; cursor: pointer; font-size: 16px; color: var(--text);
-}
-.icon-btn:active { box-shadow: var(--shadow-in-sm); }
+.topbar-title { font-weight: 800; font-size: 1.1rem; }
 .portal-grid {
   display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px;
   max-width: 1200px; margin: 0 auto;
@@ -165,7 +195,7 @@ body {
 }
 .rules-list li {
   padding: 12px 0; border-bottom: 1px solid rgba(190,200,210,.4);
-  font-size: 14px; line-height: 1.5; display: flex; gap: 10px;
+  font-size: 0.9rem; line-height: 1.5; display: flex; gap: 10px;
 }
 .rules-list li:last-child { border-bottom: none; }
 .rules-list li::before { content: '✓'; color: var(--success); font-weight: 800; }
@@ -174,251 +204,149 @@ body {
   border-radius: var(--radius-sm); box-shadow: var(--shadow-in-sm); cursor: pointer;
 }
 .check-row input { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; }
-.check-row label { font-size: 14px; font-weight: 700; cursor: pointer; }
+.check-row label { font-size: 0.9rem; font-weight: 700; cursor: pointer; }
 .info-row {
   display: flex; justify-content: space-between; padding: 10px 0;
-  font-size: 14px; border-bottom: 1px solid rgba(190,200,210,.4);
+  font-size: 0.9rem; border-bottom: 1px solid rgba(190,200,210,.4);
 }
 .info-row:last-child { border-bottom: none; }
 .info-row span:first-child { color: var(--text-muted); font-weight: 600; }
 .info-row span:last-child { font-weight: 800; }
 
 /* ============================================================
-   EXAM HEADER (Hanya Nama & TKA Background)
+   EXAM HEADER & LAYOUT
    ============================================================ */
 #screen-exam { padding: 0; overflow-y: auto; }
 
 .exam-header {
   position: fixed;
   top: 0; left: 0; right: 0;
-  height: 75px;
+  height: 90px;
   z-index: 100;
-  padding: 0 40px;
+  padding: 0 50px;
   display: flex;
   align-items: center;
+  justify-content: space-between; /* Agar nama kiri, tombol kanan */
   background: var(--bg);
-  /* Efek gradient bayangan tipis di bawah header */
-  box-shadow: 0 4px 10px -4px rgba(190, 200, 210, 0.4);
+  box-shadow: 0 4px 10px -4px rgba(0,0,0,0.1);
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* Kelas untuk menyembunyikan header saat scroll ke bawah */
-.exam-header.hide {
-  transform: translateY(-100%);
-  opacity: 0;
-  pointer-events: none;
-}
+.exam-header.hide { transform: translateY(-100%); opacity: 0; pointer-events: none; }
 
 .header-user {
-  font-size: 22px;
-  font-weight: 900;
-  color: var(--accent-dark);
-  letter-spacing: 0.5px;
+  font-size: 1.8rem; font-weight: 900; color: var(--accent-dark); letter-spacing: 0.5px;
 }
 
 /* ============================================================
-   EXAM BODY & WATERMARK (Full Screen Kertas)
+   EXAM BODY & WATERMARK
    ============================================================ */
-.exam-body { 
-  width: 100%;
-  min-height: 100vh;
-  margin-top: 75px; /* Jarak untuk header nama */
-  position: relative;
-}
+.exam-body { width: 100%; min-height: 100vh; margin-top: 90px; position: relative; }
 
-/* Kertas soal dibuat nempel pinggir (tanpa margin) */
 .exam-paper {
   background: var(--bg);
   width: 100%;
-  min-height: calc(100vh - 75px);
-  padding: 40px 40px 80px 40px; /* Padding dalam kertas */
+  min-height: calc(100vh - 90px);
+  padding: 60px 50px 100px 50px;
   position: relative;
   overflow: hidden;
-  /* Shadow bagian dalam atas sebagai pemisah visual */
-  box-shadow: inset 0 10px 15px -10px rgba(190, 200, 210, 0.6);
+  box-shadow: inset 0 10px 15px -10px rgba(0,0,0,0.1);
 }
 
-/* Container di dalam kertas agar teks tidak melebar di layar ultrawide */
-.paper-inner {
-  max-width: 1000px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
-}
+.paper-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
 
-/* WATERMARK TKA */
 .wm-tka {
-  position: absolute;
-  top: 50%; left: 50%;
+  position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%) rotate(-15deg);
-  font-size: 45vw;
-  font-weight: 900;
-  color: rgba(61, 68, 82, 0.03);
-  pointer-events: none;
-  z-index: 0;
-  letter-spacing: -10px;
-  user-select: none;
-  line-height: 1;
+  font-size: 50vw; font-weight: 900; color: rgba(61, 68, 82, 0.03);
+  pointer-events: none; z-index: 0; letter-spacing: -10px; user-select: none; line-height: 1;
 }
 
-/* WATERMARK NISN */
 .watermark {
-  position: absolute;
-  top: 25%; right: 10%;
-  transform: rotate(30deg);
-  font-size: 120px;
-  font-weight: 900;
-  color: rgba(61, 68, 82, 0.03);
-  pointer-events: none;
-  z-index: 0;
-  letter-spacing: 5px;
-  user-select: none;
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(-25deg);
+  font-size: 18vw; font-weight: 900; color: rgba(61, 68, 82, 0.04);
+  pointer-events: none; z-index: 0; letter-spacing: 5px; user-select: none; white-space: nowrap;
 }
+body.dark-mode .wm-tka, body.dark-mode .watermark { color: rgba(255, 255, 255, 0.02); }
 
-/* TOP CARD HEADER (Soal - Timer - Daftar Soal) */
 .card-header {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  margin-bottom: 30px;
-  gap: 16px;
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+  margin-bottom: 50px; gap: 20px;
 }
 
-.q-number { font-size: 18px; font-weight: 800; justify-self: start; }
+.q-number { font-size: 1.6rem; font-weight: 800; justify-self: start; }
 
-/* Timer di Tengah Kertas */
 .timer-card {
-  justify-self: center;
-  background: var(--bg);
-  border-radius: 50px;
-  box-shadow: var(--shadow-out-sm);
-  padding: 10px 24px;
-  font-family: 'Courier New', monospace;
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--accent-dark);
-  letter-spacing: 1.5px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  justify-self: center; background: var(--bg); border-radius: 50px;
+  box-shadow: var(--shadow-out-sm); padding: 14px 36px;
+  font-family: 'Courier New', monospace; font-size: 2rem; font-weight: 800;
+  color: var(--accent-dark); letter-spacing: 1.5px; display: flex; align-items: center; gap: 12px;
   transition: all 0.3s ease;
 }
 .timer-card.warn { color: var(--warning); box-shadow: var(--shadow-out-sm), inset 0 0 0 2px var(--warning); }
 .timer-card.danger { color: var(--danger); animation: pulse 1s infinite; box-shadow: var(--shadow-out-sm), inset 0 0 0 2px var(--danger); }
 @keyframes pulse { 50% { opacity: .6; } }
 
-/* Tombol Daftar Soal di Kanan Atas */
 .btn-soal {
-  justify-self: end;
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 800;
-  border-radius: var(--radius-sm);
-  background: var(--bg);
-  box-shadow: var(--shadow-out-sm);
-  border: none;
-  color: var(--text);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  justify-self: end; padding: 14px 28px; font-size: 1.2rem; font-weight: 800;
+  border-radius: var(--radius-sm); background: var(--bg); box-shadow: var(--shadow-out-sm);
+  border: none; color: var(--text); cursor: pointer; display: flex; align-items: center; gap: 10px;
 }
 .btn-soal:active { box-shadow: var(--shadow-in-sm); }
-.badge-progress {
-  background: var(--accent); color: #fff; padding: 2px 8px;
-  border-radius: 10px; font-size: 11px;
-}
+.badge-progress { background: var(--accent); color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 1rem; }
 
-/* SOAL & OPSI */
-.q-text { font-size: 18px; line-height: 1.7; margin-bottom: 28px; font-weight: 600; }
-.options { display: flex; flex-direction: column; gap: 14px; }
+.q-text { font-size: 1.6rem; line-height: 1.7; margin-bottom: 40px; font-weight: 600; }
+.options { display: flex; flex-direction: column; gap: 20px; }
 .option {
-  display: flex; align-items: center; gap: 16px; padding: 16px 20px;
+  display: flex; align-items: center; gap: 24px; padding: 24px 32px;
   border-radius: var(--radius); box-shadow: var(--shadow-out-sm);
   cursor: pointer; transition: all .15s ease; background: var(--bg);
-  border: none; text-align: left; font-family: inherit; font-size: 15px;
+  border: none; text-align: left; font-family: inherit; font-size: 1.4rem;
   color: var(--text); font-weight: 600;
 }
-.option:hover { transform: translateY(-1px); }
-.option.selected {
-  box-shadow: var(--shadow-in-sm), 0 0 0 2px var(--accent);
-  color: var(--accent-dark); font-weight: 800;
-}
+.option:hover { transform: translateY(-2px); }
+.option.selected { box-shadow: var(--shadow-in-sm), 0 0 0 3px var(--accent); color: var(--accent-dark); font-weight: 800; }
 .option-letter {
-  width: 36px; height: 36px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 800; flex-shrink: 0; box-shadow: var(--shadow-out-sm);
+  width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 1.5rem; flex-shrink: 0; box-shadow: var(--shadow-out-sm);
 }
 .option.selected .option-letter { background: var(--accent); color: #fff; box-shadow: none; }
 
-/* BOTTOM NAV (Prev - Ragu - Next) */
-.q-nav { 
-  display: grid; 
-  grid-template-columns: 1fr auto 1fr; 
-  align-items: center; 
-  margin-top: 40px; 
-  gap: 16px;
-}
+.q-nav { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; margin-top: 60px; gap: 20px; }
+#prevBtn, #nextBtn { font-size: 1.2rem; padding: 20px 40px; }
 #prevBtn { justify-self: start; }
 #nextBtn { justify-self: end; }
-
-/* Tombol Ragu di Tengah */
 .btn-flag {
-  justify-self: center;
-  background: var(--bg);
-  color: var(--text-muted);
-  border: none;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 700;
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-out-sm);
-  cursor: pointer;
-  transition: all 0.2s;
+  justify-self: center; background: var(--bg); color: var(--text-muted); border: none;
+  padding: 16px 32px; font-size: 1.2rem; font-weight: 700; border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-out-sm); cursor: pointer; transition: all 0.2s;
 }
 .btn-flag.active { color: var(--warning); box-shadow: var(--shadow-in-sm); }
-
-/* Responsif HP */
-@media (max-width: 768px) {
-  .exam-header { padding: 0 20px; height: 60px; }
-  .header-user { font-size: 18px; }
-  .exam-body { margin-top: 60px; }
-  .exam-paper { padding: 30px 20px 60px 20px; min-height: calc(100vh - 60px); }
-  .card-header { grid-template-columns: 1fr; justify-items: center; text-align: center; }
-  .q-number { justify-self: center; }
-  .btn-soal { justify-self: center; margin-top: 8px; }
-  .timer-card { grid-row: 2; }
-  .q-nav { grid-template-columns: 1fr; gap: 12px; }
-  #prevBtn, .btn-flag, #nextBtn { justify-self: center; width: 100%; }
-}
 
 /* ============================================================
    PANEL DAFTAR SOAL
    ============================================================ */
-.overlay {
-  display: none; position: fixed; inset: 0; background: rgba(61,68,82,.35);
-  z-index: 200; backdrop-filter: blur(2px);
-}
+.overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 200; backdrop-filter: blur(2px); }
 .overlay.show { display: block; }
 .soal-panel {
   position: fixed; top: 0; right: 0; bottom: 0; width: 360px; max-width: 90vw;
-  background: var(--bg); box-shadow: -10px 0 30px rgba(190,200,210,.6);
-  z-index: 250; transform: translateX(100%);
-  transition: transform .3s cubic-bezier(.2,.8,.3,1);
+  background: var(--bg); box-shadow: -10px 0 30px rgba(0,0,0,.2);
+  z-index: 250; transform: translateX(100%); transition: transform .3s cubic-bezier(.2,.8,.3,1);
   padding: 28px 24px; overflow-y: auto; display: flex; flex-direction: column;
 }
 .soal-panel.open { transform: translateX(0); }
 .panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.panel-head h3 { font-size: 18px; font-weight: 800; }
+.panel-head h3 { font-size: 1.2rem; font-weight: 800; }
 .panel-close {
   width: 36px; height: 36px; border-radius: 50%; background: var(--bg);
-  box-shadow: var(--shadow-out-sm); border: none; font-size: 16px; cursor: pointer; color: var(--text);
+  box-shadow: var(--shadow-out-sm); border: none; font-size: 1rem; cursor: pointer; color: var(--text);
 }
 .soal-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
 .soal-cell {
   aspect-ratio: 1; border-radius: var(--radius-sm); background: var(--bg);
   box-shadow: var(--shadow-out-sm); border: none; font-family: inherit;
-  font-weight: 800; font-size: 14px; color: var(--text); cursor: pointer;
+  font-weight: 800; font-size: 1rem; color: var(--text); cursor: pointer;
 }
 .soal-cell:hover { transform: translateY(-1px); }
 .soal-cell.sudah { background: var(--success); color: #fff; box-shadow: none; }
@@ -427,7 +355,7 @@ body {
 .soal-cell.sudah.aktif, .soal-cell.ragu.aktif { box-shadow: inset 0 0 0 3px var(--accent-dark); }
 .legend {
   display: flex; flex-direction: column; gap: 10px; padding: 16px;
-  border-radius: var(--radius); box-shadow: var(--shadow-in-sm); margin-bottom: 20px; font-size: 13px;
+  border-radius: var(--radius); box-shadow: var(--shadow-in-sm); margin-bottom: 20px; font-size: 0.9rem;
 }
 .legend-row { display: flex; align-items: center; gap: 10px; }
 .legend-dot { width: 16px; height: 16px; border-radius: 4px; background: var(--bg); box-shadow: var(--shadow-out-sm); }
@@ -437,10 +365,44 @@ body {
 .panel-submit { margin-top: auto; padding-top: 20px; }
 
 /* ============================================================
+   RESULT SCREEN (Sesuai Blueprint)
+   ============================================================ */
+#screen-result { padding: 0; overflow-y: auto; background: var(--bg); }
+
+.result-topbar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 40px; background: var(--bg); box-shadow: 0 4px 10px -4px rgba(0,0,0,0.1);
+}
+.result-title { text-align: center; font-size: 2rem; font-weight: 900; margin: 40px 0 20px; color: var(--success); }
+
+.result-wrap { max-width: 900px; margin: 0 auto; padding-bottom: 60px; }
+
+.result-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px; }
+@media (max-width: 640px) { .result-stats { grid-template-columns: 1fr; } }
+.stat-card { text-align: center; padding: 24px; border-radius: var(--radius-lg); box-shadow: var(--shadow-out); }
+.stat-label { font-size: 0.9rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 12px; }
+.stat-value { font-size: 2.5rem; font-weight: 900; color: var(--accent); }
+.stat-value.success { color: var(--success); }
+.stat-value.muted { color: var(--text-muted); }
+
+/* Tabel Review */
+.table-section { margin-bottom: 32px; }
+.table-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.table-container {
+  background: var(--bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-in);
+  padding: 16px; max-height: 300px; overflow-y: auto; /* Scrollable */
+}
+table { width: 100%; border-collapse: collapse; text-align: left; }
+th, td { padding: 12px 16px; border-bottom: 1px solid rgba(190,200,210,.4); font-size: 0.95rem; }
+th { font-weight: 800; color: var(--text-muted); position: sticky; top: 0; background: var(--bg); z-index: 10; }
+tr:last-child td { border-bottom: none; }
+.review-item.empty td { background: rgba(123, 132, 148, 0.1); font-style: italic; color: var(--text-muted); }
+
+/* ============================================================
    MODAL
    ============================================================ */
 .modal-overlay {
-  display: none; position: fixed; inset: 0; background: rgba(61,68,82,.4);
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5);
   z-index: 300; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(3px);
 }
 .modal-overlay.show { display: flex; }
@@ -448,52 +410,28 @@ body {
   background: var(--bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-out-lg);
   padding: 32px; max-width: 460px; width: 100%; max-height: 90vh; overflow-y: auto;
 }
-.modal h2 { font-size: 20px; font-weight: 800; margin-bottom: 20px; text-align: center; }
+.modal h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 20px; text-align: center; }
 .modal-stat {
-  display: flex; justify-content: space-between; padding: 10px 16px;
+  display: flex; justify-content: space-between; padding: 12px 16px;
   border-radius: var(--radius-sm); box-shadow: var(--shadow-in-sm);
-  margin-bottom: 10px; font-size: 14px; font-weight: 700;
+  margin-bottom: 12px; font-size: 1rem; font-weight: 700;
 }
 .modal-warn {
-  padding: 14px; border-radius: var(--radius-sm); background: rgba(239,68,68,.08);
-  color: var(--danger); font-size: 13px; font-weight: 700; margin: 16px 0; line-height: 1.5;
+  padding: 14px; border-radius: var(--radius-sm); background: rgba(239,68,68,.1);
+  color: var(--danger); font-size: 0.9rem; font-weight: 700; margin: 16px 0; line-height: 1.5;
 }
 .modal-actions { display: flex; gap: 12px; margin-top: 24px; }
 .modal-actions .btn { flex: 1; }
-
-.tw-time { font-family: 'Courier New', monospace; font-size: 64px; font-weight: 800; text-align: center; margin: 20px 0; color: var(--warning); }
+.tw-time { font-family: 'Courier New', monospace; font-size: 4rem; font-weight: 800; text-align: center; margin: 20px 0; color: var(--warning); }
 #timeWarningContent.warn-30 .tw-time { color: var(--danger); }
-#timeWarningContent.warn-3 { border-top: 4px solid var(--warning); }
-#timeWarningContent.warn-30 { border-top: 4px solid var(--danger); }
 
-/* ============================================================
-   RESULT
-   ============================================================ */
-.result-wrap { max-width: 900px; margin: 0 auto; }
-.result-title { text-align: center; font-size: 26px; font-weight: 800; margin-bottom: 28px; color: var(--success); }
-.result-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
-@media (max-width: 640px) { .result-stats { grid-template-columns: repeat(2, 1fr); } }
-.stat-card { text-align: center; padding: 20px 16px; border-radius: var(--radius-lg); box-shadow: var(--shadow-out); }
-.stat-label { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-.stat-value { font-size: 28px; font-weight: 800; color: var(--accent); }
-.stat-value.success { color: var(--success); }
-.stat-value.danger { color: var(--danger); }
-.stat-value.muted { color: var(--text-muted); }
-.review-list { padding: 20px; border-radius: var(--radius-lg); box-shadow: var(--shadow-in); margin-bottom: 24px; }
-.review-item {
-  display: flex; justify-content: space-between; padding: 12px 16px;
-  border-bottom: 1px solid rgba(190,200,210,.4); font-size: 14px;
-  border-radius: var(--radius-sm); transition: background 0.2s;
-}
-.review-item.empty { background: rgba(123, 132, 148, 0.12); color: var(--text-muted); font-style: italic; }
-.review-item:last-child { border-bottom: none; }
 .text-center { text-align: center; }
 .hidden { display: none !important; }
 .mt-16 { margin-top: 16px; }
 .mt-24 { margin-top: 24px; }
 </style>
 </head>
-<body>
+<body class="font-normal">
 
 <!-- LOGIN SCREEN -->
 <section id="screen-login" class="screen active">
@@ -528,22 +466,18 @@ body {
   <div class="login-wrap">
     <div class="login-card">
       <div class="brand">
-        <div class="brand-icon lock-icon">🔒</div>
-        <h1 class="lock-title">SESI TERKUNCI</h1>
+        <div class="brand-icon">🔒</div>
+        <h1 style="color:var(--danger);">SESI TERKUNCI</h1>
       </div>
-      <p class="text-center" style="font-size:14px; line-height:1.6; color:var(--text-muted); margin-bottom:20px;">
+      <p class="text-center" style="font-size:0.9rem; line-height:1.6; color:var(--text-muted); margin-bottom:20px;">
         Sesi ujian Anda telah dikunci karena:<br>
         <strong id="lockReason" style="color:var(--danger);">—</strong>
       </p>
-      <p class="text-center" style="font-size:13px; color:var(--text-muted); margin-bottom:24px;">
+      <p class="text-center" style="font-size:0.85rem; color:var(--text-muted); margin-bottom:24px;">
         Hubungi pengawas untuk membuka sesi Anda.
       </p>
-      <button class="btn btn-danger btn-block" onclick="openAdminModal()">
-        🔓 Unlock via Admin
-      </button>
-      <div class="note" style="margin-top:20px;">
-        Demo kode admin: <strong>ADMIN2025</strong>
-      </div>
+      <button class="btn btn-danger btn-block" onclick="openAdminModal()">🔓 Unlock via Admin</button>
+      <div class="note" style="margin-top:20px;">Demo kode admin: <strong>ADMIN2025</strong></div>
     </div>
   </div>
 </section>
@@ -552,15 +486,16 @@ body {
 <section id="screen-portal" class="screen">
   <div class="topbar">
     <div class="topbar-title">🎓 CBT TKA &middot; TKA 2025</div>
-    <div class="topbar-actions">
-      <span style="font-size:13px; font-weight:700; color:var(--text-muted);" id="portalUser"></span>
-      <button class="icon-btn" title="Dark mode">☀</button>
-      <button class="icon-btn" title="Font size">A±</button>
+    <div class="top-controls">
+      <span style="font-size:0.9rem; font-weight:700; color:var(--text-muted); margin-right:8px;" id="portalUser"></span>
+      <!-- Tombol Global Dark & Font -->
+      <button class="icon-btn" id="btnDarkPortal" onclick="toggleDarkMode()">☀</button>
+      <button class="icon-btn" id="btnFontPortal" onclick="changeFontSize()">A±</button>
     </div>
   </div>
   <div class="portal-grid">
     <div class="card" style="padding: 24px; min-height: auto;">
-      <h2 style="font-size:18px; margin-bottom:16px;">📋 Peraturan Ujian</h2>
+      <h2 style="font-size:1.2rem; margin-bottom:16px;">📋 Peraturan Ujian</h2>
       <ul class="rules-list">
         <li>Dilarang membuka tab atau aplikasi lain selama ujian berlangsung.</li>
         <li>Dilarang keluar dari mode layar penuh.</li>
@@ -573,46 +508,40 @@ body {
       </div>
     </div>
     <div class="card" style="padding: 24px; min-height: auto;">
-      <h2 style="font-size:18px; margin-bottom:16px;">📝 Keterangan Soal</h2>
+      <h2 style="font-size:1.2rem; margin-bottom:16px;">📝 Keterangan Soal</h2>
       <div class="info-row"><span>Total Soal</span><span>5 (demo)</span></div>
       <div class="info-row"><span>Tipe Soal</span><span>Pilihan Ganda</span></div>
       <div class="info-row"><span>Durasi</span><span>5 menit (demo)</span></div>
       <div class="mt-24">
         <label class="label" for="inputToken">🔑 Token Ujian</label>
-        <input id="inputToken" class="input" type="text" placeholder="6 digit token" maxlength="10"
-               style="text-transform:uppercase;" oninput="updatePortalButton()">
-        <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">Demo: <strong>TKA2025</strong></p>
+        <input id="inputToken" class="input" type="text" placeholder="6 digit token" maxlength="10" style="text-transform:uppercase;" oninput="updatePortalButton()">
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-top:6px;">Demo: <strong>TKA2025</strong></p>
       </div>
-      <button id="startBtn" class="btn btn-primary btn-block mt-24" disabled onclick="startExam()">
-        MULAI UJIAN  →
-      </button>
+      <button id="startBtn" class="btn btn-primary btn-block mt-24" disabled onclick="startExam()">MULAI UJIAN  →</button>
     </div>
   </div>
 </section>
 
 <!-- EXAM SCREEN -->
 <section id="screen-exam" class="screen">
-  <!-- HEADER: Hanya Nama -->
   <div class="exam-header">
     <div class="header-user">👤 <span id="examUser"></span></div>
+    <div class="top-controls">
+      <button class="icon-btn" id="btnDarkExam" onclick="toggleDarkMode()">☀</button>
+      <button class="icon-btn" id="btnFontExam" onclick="changeFontSize()">A±</button>
+    </div>
   </div>
 
   <div class="exam-body">
-    <!-- KERTAS SOAL FULL SCREEN -->
     <div class="exam-paper">
-      <!-- WATERMARK BACKGROUND -->
       <div class="wm-tka">TKA</div>
       <div class="watermark" id="watermarkText">NISN</div>
       
-      <!-- KONTEN SOAL (Max width 1000px di tengah) -->
       <div class="paper-inner">
-        
         <div class="card-header">
           <div class="q-number">Soal <span id="qNumber">1</span> dari <span id="qTotal">5</span></div>
           <div class="timer-card" id="timerCard">⏱ 05:00</div>
-          <button class="btn-soal" onclick="openSoalPanel()">
-            ☰ Daftar Soal <span class="badge-progress" id="progressBadge">0/5</span>
-          </button>
+          <button class="btn-soal" onclick="openSoalPanel()">☰ Daftar Soal <span class="badge-progress" id="progressBadge">0/5</span></button>
         </div>
 
         <div class="q-text" id="qText">—</div>
@@ -623,7 +552,6 @@ body {
           <button class="btn-flag" id="flagBtn" onclick="toggleFlag()">🚩 Tandai Ragu</button>
           <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Lanjut →</button>
         </div>
-
       </div>
     </div>
   </div>
@@ -648,37 +576,77 @@ body {
   </div>
 </aside>
 
-<!-- RESULT SCREEN -->
+<!-- RESULT SCREEN (REVISI BLUEPRINT) -->
 <section id="screen-result" class="screen">
+  <!-- Topbar: Nama (kiri) & Tombol (kanan) tanpa Logout -->
+  <div class="result-topbar">
+    <div class="header-user" style="font-size:1.4rem; color:var(--text);">👤 <span id="resultUser"></span></div>
+    <div class="top-controls">
+      <button class="icon-btn" id="btnDarkResult" onclick="toggleDarkMode()">☀</button>
+      <button class="icon-btn" id="btnFontResult" onclick="changeFontSize()">A±</button>
+    </div>
+  </div>
+
   <div class="result-wrap">
-    <h1 class="result-title">✅ Ujian Selesai</h1>
+    <h1 class="result-title">✅ UJIAN SELESAI</h1>
     
+    <!-- 3 Stats (Sesuai Blueprint) -->
     <div class="result-stats">
       <div class="stat-card">
-        <div class="stat-label">Skor</div>
+        <div class="stat-label">SKOR</div>
         <div class="stat-value" id="resScore">0</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Benar</div>
-        <div class="stat-value success" id="resCorrect">0</div>
+        <div class="stat-label">TERJAWAB</div>
+        <div class="stat-value" id="resAnswered">0/0</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Salah</div>
-        <div class="stat-value danger" id="resWrong">0</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Kosong</div>
-        <div class="stat-value muted" id="resEmpty">0</div>
+        <div class="stat-label">STATUS</div>
+        <div class="stat-value" id="resStatus">-</div>
       </div>
     </div>
 
-    <div class="review-list">
-      <h3 style="margin-bottom:14px; font-size:16px;">📝 Review Jawaban</h3>
-      <div id="reviewBox"></div>
+    <!-- Tabel 1: Waktu per Soal (Scrollable) -->
+    <div class="table-section">
+      <h3 class="table-title">⏱ WAKTU PER SOAL</h3>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Durasi</th>
+              <th>Kunjungan</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="timeTableBody">
+            <!-- Diisi via JS -->
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <div class="text-center">
-      <button class="btn btn-primary" onclick="backToLogin()" style="padding:14px 40px;">
+    <!-- Tabel 2: History Jawaban (Scrollable) -->
+    <div class="table-section">
+      <h3 class="table-title">📝 HISTORY JAWABAN</h3>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Soal</th>
+              <th>Perubahan Jawaban</th>
+              <th>Keterangan</th>
+            </tr>
+          </thead>
+          <tbody id="historyTableBody">
+            <!-- Diisi via JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="text-center" style="margin-top: 40px;">
+      <button class="btn btn-primary" onclick="backToLogin()" style="padding:16px 40px; font-size:1.2rem;">
         🚪 Kembali ke Login
       </button>
     </div>
@@ -704,7 +672,7 @@ body {
   <div class="modal" id="timeWarningContent">
     <h2 id="twTitle">⏱ Waktu Tersisa</h2>
     <div class="tw-time" id="twTime">00:00</div>
-    <p id="twMessage" class="text-center" style="font-size:14px; color:var(--text-muted);">Periksa kembali jawaban Anda.</p>
+    <p id="twMessage" class="text-center" style="font-size:0.9rem; color:var(--text-muted);">Periksa kembali jawaban Anda.</p>
     <div class="modal-actions"><button class="btn btn-primary btn-block" onclick="closeTimeWarning()">Mengerti</button></div>
   </div>
 </div>
@@ -745,6 +713,33 @@ const QUESTIONS = [
 const state = { user: null, currentIndex: 0, answers: {}, flagged: new Set(), isLocked: false, examFinished: false };
 let timerInterval = null, timeRemaining = 0, warningShown3min = false, warningShown30sec = false;
 
+/* --- TRACKING DATA --- */
+let currentQStart = 0;
+let qTimeData = {}; // { qId: { time: seconds, visits: count } }
+let qHistoryData = {}; // { qId: ['A', 'B', 'C'] }
+
+/* --- UI PREFERENCES (DARK MODE & FONT SIZE) --- */
+function toggleDarkMode() {
+  document.body.classList.toggle('dark-mode');
+  const isDark = document.body.classList.contains('dark-mode');
+  const icons = ['btnDarkPortal', 'btnDarkExam', 'btnDarkResult'];
+  icons.forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.textContent = isDark ? '🌙' : '☀';
+  });
+}
+
+function changeFontSize() {
+  const body = document.body;
+  if (body.classList.contains('font-normal')) {
+    body.classList.remove('font-normal'); body.classList.add('font-large');
+  } else if (body.classList.contains('font-large')) {
+    body.classList.remove('font-large'); body.classList.add('font-small');
+  } else {
+    body.classList.remove('font-small'); body.classList.add('font-normal');
+  }
+}
+
 /* --- SCROLL EFFECT HEADER (FADE) --- */
 const examScreen = document.getElementById('screen-exam');
 const examHeader = document.querySelector('.exam-header');
@@ -752,11 +747,8 @@ let lastScrollTop = 0;
 
 examScreen.addEventListener('scroll', function() {
   let scrollTop = this.scrollTop;
-  if (scrollTop > lastScrollTop && scrollTop > 50) {
-    examHeader.classList.add('hide');
-  } else {
-    examHeader.classList.remove('hide');
-  }
+  if (scrollTop > lastScrollTop && scrollTop > 50) examHeader.classList.add('hide');
+  else examHeader.classList.remove('hide');
   lastScrollTop = scrollTop;
 });
 
@@ -786,6 +778,7 @@ function handleLogin(e) {
   state.user = user;
   document.getElementById('portalUser').textContent = `👤 ${user.name}`;
   document.getElementById('examUser').textContent = `${user.name}`;
+  document.getElementById('resultUser').textContent = `${user.name}`;
   document.getElementById('watermarkText').textContent = user.nisn; 
   showScreen('screen-portal');
 }
@@ -869,15 +862,38 @@ function submitAdminCode() {
   closeAdminModal(); alert('✅ Sesi berhasil dibuka. Silakan login kembali.'); showScreen('screen-login');
 }
 
+/* --- MULAI UJIAN & TRACKING --- */
 function startExam() {
   requestFullscreen();
   state.currentIndex = 0; state.answers = {}; state.flagged = new Set(); state.isLocked = false; state.examFinished = false;
+  qTimeData = {}; qHistoryData = {}; // Reset tracking
+  
   setExamState('active');
   renderQuestion(); buildSoalGrid(); updateProgressBadge(); startTimer(); showScreen('screen-exam');
 }
 
+/* --- TRACKING WAKTU & KUNJUNGAN --- */
+function recordTime(qId) {
+  if (!activeQId) return;
+  const timeSpent = Math.floor((Date.now() - activeStartTime) / 1000);
+  if (!qTimeData[activeQId]) qTimeData[activeQId] = { time: 0, visits: 0 };
+  qTimeData[activeQId].time += timeSpent;
+}
+
+let activeQId = null, activeStartTime = 0;
+
 function renderQuestion() {
   const q = QUESTIONS[state.currentIndex], total = QUESTIONS.length, idx = state.currentIndex;
+  
+  // Simpan waktu soal sebelumnya
+  recordTime();
+  activeQId = q.id;
+  activeStartTime = Date.now();
+  
+  // Hitung kunjungan
+  if (!qTimeData[q.id]) qTimeData[q.id] = { time: 0, visits: 0 };
+  qTimeData[q.id].visits++;
+
   document.getElementById('qNumber').textContent = idx + 1;
   document.getElementById('qTotal').textContent = total;
   document.getElementById('qText').textContent = q.text;
@@ -903,7 +919,17 @@ function renderQuestion() {
   updateSoalGridActive();
 }
 
-function selectAnswer(key) { const q = QUESTIONS[state.currentIndex]; state.answers[q.id] = key; renderQuestion(); buildSoalGrid(); updateProgressBadge(); }
+function selectAnswer(key) { 
+  const q = QUESTIONS[state.currentIndex]; 
+  // Track history
+  if (!qHistoryData[q.id]) qHistoryData[q.id] = [];
+  const lastAns = qHistoryData[q.id][qHistoryData[q.id].length - 1];
+  if (lastAns !== key) qHistoryData[q.id].push(key);
+  
+  state.answers[q.id] = key; 
+  renderQuestion(); buildSoalGrid(); updateProgressBadge(); 
+}
+
 function toggleFlag() { const q = QUESTIONS[state.currentIndex]; if (state.flagged.has(q.id)) state.flagged.delete(q.id); else state.flagged.add(q.id); renderQuestion(); buildSoalGrid(); }
 function prevQuestion() { if (state.currentIndex > 0) { state.currentIndex--; renderQuestion(); } }
 function nextQuestion() { if (state.currentIndex < QUESTIONS.length - 1) { state.currentIndex++; renderQuestion(); } }
@@ -926,6 +952,8 @@ function updateProgressBadge() { document.getElementById('progressBadge').textCo
 
 function openSubmitModal() {
   closeSoalPanel();
+  recordTime(); // Rekam waktu di soal terakhir sebelum submit modal terbuka
+  
   const answeredCount = Object.keys(state.answers).length;
   const unansweredList = QUESTIONS.filter(q => !state.answers[q.id]).map(q => q.id);
   document.getElementById('sumAnswered').textContent = `${answeredCount} / ${QUESTIONS.length}`;
@@ -937,25 +965,67 @@ function openSubmitModal() {
   document.getElementById('submitModal').classList.add('show');
 }
 function closeSubmitModal() { document.getElementById('submitModal').classList.remove('show'); }
-function submitExam() { closeSubmitModal(); stopTimer(); state.examFinished = true; setExamState('finished'); exitFullscreen(); renderResult(); showScreen('screen-result'); }
+function submitExam() { 
+  closeSubmitModal(); stopTimer(); state.examFinished = true; setExamState('finished'); exitFullscreen(); 
+  recordTime(); // Simpan waktu terakhir
+  renderResult(); showScreen('screen-result'); 
+}
 
+/* --- RENDER HASIL (Sesuai Blueprint) --- */
 function renderResult() {
-  let correct = 0, wrong = 0, empty = 0;
-  const reviewBox = document.getElementById('reviewBox'); reviewBox.innerHTML = '';
-  QUESTIONS.forEach((q, i) => {
-    const userAns = state.answers[q.id], isCorrect = userAns === q.answer;
-    let statusIcon = '', rowClass = 'review-item';
-    if (!userAns) { empty++; statusIcon = '⬜'; rowClass += ' empty'; }
-    else if (isCorrect) { correct++; statusIcon = '✅'; }
-    else { wrong++; statusIcon = '❌'; }
-    const row = document.createElement('div'); row.className = rowClass;
-    row.innerHTML = `<span>Soal ${i + 1}</span><span>Jawaban: <strong>${userAns || '—'}</strong> &nbsp;·&nbsp; Kunci: <strong>${q.answer}</strong> &nbsp; ${statusIcon}</span>`;
-    reviewBox.appendChild(row);
+  let correct = 0;
+  const answeredCount = Object.keys(state.answers).length;
+  
+  // Kalkulasi Skor
+  QUESTIONS.forEach((q) => {
+    if (state.answers[q.id] === q.answer) correct++;
   });
-  document.getElementById('resScore').textContent = Math.round((correct / QUESTIONS.length) * 100);
-  document.getElementById('resCorrect').textContent = correct;
-  document.getElementById('resWrong').textContent = wrong;
-  document.getElementById('resEmpty').textContent = empty;
+  const score = Math.round((correct / QUESTIONS.length) * 100);
+
+  // Update 3 Stats Utama
+  document.getElementById('resScore').textContent = score;
+  document.getElementById('resAnswered').textContent = `${answeredCount} / ${QUESTIONS.length}`;
+  
+  const statusEl = document.getElementById('resStatus');
+  if (score >= 70) { statusEl.textContent = 'Lulus'; statusEl.className = 'stat-value success'; }
+  else { statusEl.textContent = 'Belum Lulus'; statusEl.className = 'stat-value danger'; }
+
+  // Build Tabel Waktu Per Soal
+  const timeTable = document.getElementById('timeTableBody'); timeTable.innerHTML = '';
+  QUESTIONS.forEach((q) => {
+    const data = qTimeData[q.id] || { time: 0, visits: 1 };
+    const m = Math.floor(data.time / 60);
+    const s = data.time % 60;
+    const timeStr = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    
+    let statusIcon = '⬜';
+    if (state.answers[q.id]) statusIcon = '🟩';
+    else if (state.flagged.has(q.id)) statusIcon = '🟧';
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${q.id}</td><td>${timeStr}</td><td>${data.visits}x</td><td>${statusIcon}</td>`;
+    timeTable.appendChild(tr);
+  });
+
+  // Build Tabel History Jawaban
+  const historyTable = document.getElementById('historyTableBody'); historyTable.innerHTML = '';
+  let hasHistory = false;
+  
+  QUESTIONS.forEach((q) => {
+    const hist = qHistoryData[q.id] || [];
+    if (hist.length > 1) { // Hanya tampilkan yang berubah
+      hasHistory = true;
+      const changes = hist.join(' → ');
+      const count = hist.length - 1;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>Soal ${q.id}</td><td>${changes}</td><td>${count}x diubah</td>`;
+      historyTable.appendChild(tr);
+    }
+  });
+
+  if (!hasHistory) {
+    historyTable.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Tidak ada perubahan jawaban</td></tr>`;
+  }
 }
 
 function backToLogin() {
