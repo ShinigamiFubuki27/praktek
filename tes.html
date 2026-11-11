@@ -249,7 +249,7 @@ tr:last-child td { border-bottom: none; }
 .text-muted { color: var(--text-muted); font-weight: 700; }
 
 /* ============================================================
-   GURU DASHBOARD (MONITORING)
+   GURU DASHBOARD (MONITORING) 
    ============================================================ */
 #screen-guru { padding: 0; overflow-y: auto; background: transparent; }
 .guru-container { max-width: 1400px; margin: 0 auto; padding: 20px; }
@@ -351,6 +351,14 @@ select.input { appearance: none; cursor: pointer; }
 </style>
 </head>
 <body>
+
+<!-- OVERLAY RESUME EXAM (UNTUK MENCEGAH LOCKOUT SAAT REFRESH) -->
+<div id="resumeOverlay" style="display:none; position:fixed; inset:0; background:var(--bg); z-index:9999; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px;">
+  <div class="brand-icon" style="width:80px; height:80px; font-size:2.5rem; margin-bottom:20px;">🔄</div>
+  <h2 style="font-size:1.8rem; font-weight:900; color:var(--text); margin-bottom:10px;">Sesi Ujian Terdeteksi</h2>
+  <p style="color:var(--text-muted); margin-bottom:30px; max-width:400px;">Halaman telah dimuat ulang. Silakan klik tombol di bawah ini untuk kembali masuk ke mode layar penuh dan melanjutkan ujian.</p>
+  <button class="btn btn-primary" style="font-size:1.2rem; padding:15px 40px;" onclick="resumeExamSession()">Kembali ke Fullscreen & Lanjutkan</button>
+</div>
 
 <!-- LOGIN SCREEN -->
 <section id="screen-login" class="screen active">
@@ -599,7 +607,6 @@ select.input { appearance: none; cursor: pointer; }
       <div class="header-user">Dashboard Guru — Live Monitoring</div>
       <div class="top-controls">
         <span style="font-weight:800; margin-right:10px;">👤 Guru Pengawas</span>
-        <!-- Kontrol Font ditambahkan di sini -->
         <button class="icon-btn" onclick="adjustFontSize(-1)">A-</button>
         <button class="icon-btn" onclick="adjustFontSize(1)">A+</button>
         <button class="icon-btn" id="btnDarkGuru" onclick="toggleDarkMode()">☀</button>
@@ -761,7 +768,7 @@ select.input { appearance: none; cursor: pointer; }
 <script>
 const EXAM_DURATION_SECONDS = 5 * 60;
 
-// DATA SISWA TERDAFTAR (Ditambah untuk uji coba)
+// DATA SISWA TERDAFTAR
 const STUDENTS = [
   { nisn: '0012345678', name: 'Ahmad Fauzi', password: '12345' },
   { nisn: '0023456789', name: 'Ihsan', password: '12345' },
@@ -788,6 +795,7 @@ let state = {
 let timerInterval = null;
 let warningShown3min = false, warningShown30sec = false;
 let isInitializing = true; 
+let waitingForResume = false; // Mencegah lockout palsu saat refresh
 
 // STATE GURU (EDITOR)
 let teQuestions = []; 
@@ -911,7 +919,6 @@ function guruLogout() {
 
 function logoutStudent() {
   if (state.user) {
-    // Reset status di DB jika hanya sampai di portal
     updateStudentDB(state.user.nisn, 'status', '-');
   }
   backToLogin();
@@ -969,21 +976,37 @@ function loadStudentState() {
       return true;
     }
 
+    // JIKA TIDAK TERKUNCI, TAPI ADA STATE UJIAN (BERARTI BARU REFRESH)
+    // Jangan jalankan timer dulu, munculkan overlay resume.
+    waitingForResume = true;
+    document.getElementById('resumeOverlay').style.display = 'flex';
     document.getElementById('examUser').textContent = state.user.name;
     document.getElementById('examNisn').textContent = state.user.nisn;
     timeRemaining = state.timeRemaining;
+    updateTimerDisplay(); // Tampilkan waktu diam dulu
     
-    startTimerUI(); 
-    showScreen('screen-exam');
     renderQuestion(true); 
     buildSoalGrid();
     updateProgressBadge();
+    showScreen('screen-exam');
     return true;
   } catch(e) { return false; }
 }
 
+function resumeExamSession() {
+  requestFullscreen();
+  document.getElementById('resumeOverlay').style.display = 'none';
+  waitingForResume = false;
+  isInitializing = false;
+  
+  // Karena baru refresh, reset activeStartTime agar waktu loading tidak masuk hitungan soal
+  if (state.activeQId) state.activeStartTime = Date.now();
+  
+  startTimerUI();
+}
+
 function isExamActive() { 
-  return document.getElementById('screen-exam').classList.contains('active') && !state.isLocked && !state.examFinished; 
+  return document.getElementById('screen-exam').classList.contains('active') && !state.isLocked && !state.examFinished && !waitingForResume; 
 }
 
 function triggerLockout(reason) {
@@ -1009,7 +1032,7 @@ document.addEventListener('visibilitychange', () => {
 });
 
 document.addEventListener('fullscreenchange', () => { 
-  if (isInitializing) return;
+  if (isInitializing || waitingForResume) return; // Abaikan jika sedang loading/resume
   if (!document.fullscreenElement && isExamActive()) triggerLockout('Anda keluar dari mode layar penuh.');
 });
 
