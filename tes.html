@@ -49,7 +49,7 @@ body.dark-mode {
   --shadow-out:    6px 6px 12px #141619, -6px -6px 12px #282C33;
   --shadow-out-sm: 4px 4px 8px #141619, -4px -4px 8px #282C33;
   --shadow-out-lg: 10px 10px 20px #141619, -10px -10px 20px #282C33;
-  --shadow-in:     inset 4px 4px 8px #141619, inset -4px -4px 8px #282C33;
+  --shadow-in:     inset 4px 4px 8px #141619, -4px -4px 8px #282C33;
   --shadow-in-sm:  inset 2px 2px 5px #141619, -2px -2px 5px #282C33;
 }
 
@@ -703,12 +703,14 @@ select.input { appearance: none; cursor: pointer; }
 
     <div class="field mt-16">
       <label class="label">Kunci Jawaban</label>
+      <!-- OPSI BONUS DITAMBAHKAN DI SINI -->
       <select id="teQAnswer" class="input" style="padding: 12px 16px;">
         <option value="A">A</option>
         <option value="B">B</option>
         <option value="C">C</option>
         <option value="D">D</option>
         <option value="E">E</option>
+        <option value="BONUS" style="font-weight: 800; color: var(--success);">BONUS (Semua Jawaban Benar)</option>
       </select>
     </div>
 
@@ -795,7 +797,7 @@ let state = {
 let timerInterval = null;
 let warningShown3min = false, warningShown30sec = false;
 let isInitializing = true; 
-let waitingForResume = false; // Mencegah lockout palsu saat refresh
+let waitingForResume = false; 
 
 // STATE GURU (EDITOR)
 let teQuestions = []; 
@@ -1032,7 +1034,7 @@ document.addEventListener('visibilitychange', () => {
 });
 
 document.addEventListener('fullscreenchange', () => { 
-  if (isInitializing || waitingForResume) return; // Abaikan jika sedang loading/resume
+  if (isInitializing || waitingForResume) return;
   if (!document.fullscreenElement && isExamActive()) triggerLockout('Anda keluar dari mode layar penuh.');
 });
 
@@ -1309,8 +1311,21 @@ function submitExam(force = false) {
   state.examFinished = true; 
   
   let correct = 0;
-  QUESTIONS.forEach((q) => { if (state.answers[q.id] === q.answer) correct++; });
-  const score = Math.round((correct / QUESTIONS.length) * 100);
+  let totalSoal = QUESTIONS.length;
+
+  // LOGIKA PENILAIAN BARU (TERMASUK BONUS)
+  QUESTIONS.forEach((q) => { 
+    const ans = state.answers[q.id];
+    if (ans) { // Jika soal dijawab
+      if (q.answer === 'BONUS') {
+        correct++; // Soal bonus selalu dianggap benar
+      } else if (ans === q.answer) {
+        correct++;
+      }
+    }
+  });
+
+  const score = totalSoal > 0 ? Math.round((correct / totalSoal) * 100) : 0;
 
   let db = getDB();
   if (db[state.user.nisn]) {
@@ -1339,8 +1354,10 @@ function renderResult(userName, answers, timeData, historyData, qList, score) {
   let correct = 0, totalSeconds = 0;
   const answeredCount = Object.keys(answers).length;
   
+  // Hitung ulang untuk tabel
   qList.forEach((q) => {
-    if (answers[q.id] === q.answer) correct++;
+    const ans = answers[q.id];
+    if (ans && (q.answer === 'BONUS' || ans === q.answer)) correct++;
     const qTime = timeData[q.id] || { time: 0 };
     totalSeconds += qTime.time;
   });
@@ -1365,17 +1382,20 @@ function renderResult(userName, answers, timeData, historyData, qList, score) {
     const timeStr = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
     
     const userAns = answers[q.id] || '-';
-    const isCorrect = userAns === q.answer;
+    const isCorrect = userAns !== '-' && (q.answer === 'BONUS' || userAns === q.answer);
 
     let labelHasil = '';
     if (userAns === '-') labelHasil = '<span class="text-muted">⬜ Kosong</span>';
     else if (isCorrect) labelHasil = '<span class="text-success">✅ Benar</span>';
     else labelHasil = '<span class="text-danger">❌ Salah</span>';
 
+    // Tampilkan label "BONUS" di kolom kunci
+    const kunciTampil = q.answer === 'BONUS' ? 'BONUS' : q.answer;
+
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${q.id}</td><td>${timeStr}</td><td>${data.visits}x</td>
-      <td><strong>${userAns}</strong></td><td><strong>${q.answer}</strong></td>
+      <td><strong>${userAns}</strong></td><td><strong style="color:var(--success);">${kunciTampil}</strong></td>
       <td>${labelHasil}</td>
     `;
     timeTable.appendChild(tr);
