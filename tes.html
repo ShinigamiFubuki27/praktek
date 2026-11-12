@@ -48,7 +48,7 @@ body.dark-mode {
   --shadow-out:    6px 6px 12px #141619, -6px -6px 12px #282C33;
   --shadow-out-sm: 4px 4px 8px #141619, -4px -4px 8px #282C33;
   --shadow-out-lg: 10px 10px 20px #141619, -10px -10px 20px #282C33;
-  --shadow-in:     inset 4px 4px 8px #141619, inset -4px -4px 8px #282C33;
+  --shadow-in:     inset 4px 4px 8px #141619, -4px -4px 8px #282C33;
   --shadow-in-sm:  inset 2px 2px 5px #141619, -2px -2px 5px #282C33;
 }
 
@@ -60,6 +60,16 @@ body {
   min-height: 100vh; overflow: hidden;
   transition: background-color 0.3s, color 0.3s;
   position: relative;
+  
+  /* PERBAIKAN: Menghilangkan kursor vertikal (caret) saat klik area kosong */
+  caret-color: transparent; 
+  user-select: none;
+}
+
+/* Mengembalikan fungsi kursor dan seleksi teks untuk elemen yang membutuhkan */
+input, textarea, .q-text, table, .modal-content, .q-box {
+  caret-color: var(--text);
+  user-select: text;
 }
 
 /* BACKGROUND DOT PATTERN */
@@ -212,14 +222,45 @@ body.dark-mode .wm-tka { color: rgba(255, 255, 255, 0.02); }
 .stat-value.danger { color: var(--danger); }
 .table-section { margin-bottom: 24px; }
 .table-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-.table-container { background: var(--bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-in); padding: 16px; max-height: 300px; overflow-y: auto; }
-table { width: 100%; border-collapse: collapse; text-align: left; }
-th, td { padding: 12px 14px; border-bottom: 1px solid rgba(150,160,180,.1); font-size: 0.95rem; white-space: nowrap; }
-th { font-weight: 800; color: var(--text-muted); position: sticky; top: 0; background: var(--bg); z-index: 10; }
-tr:last-child td { border-bottom: none; }
+
+/* ============================================================
+   PERBAIKAN TABEL (HASIL & GURU)
+   ============================================================ */
+.table-container { 
+  background: var(--bg); 
+  border-radius: var(--radius-lg); 
+  box-shadow: var(--shadow-in); 
+  padding: 0; 
+  max-height: 300px; 
+  overflow-y: auto; 
+  position: relative;
+  border: 1px solid rgba(150,160,180,0.2);
+}
+.table-container table { width: 100%; border-collapse: collapse; text-align: left; table-layout: fixed; }
+.table-container th, .table-container td { padding: 14px 16px; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.table-container th { 
+  font-weight: 800; 
+  color: var(--text-muted); 
+  position: sticky; 
+  top: 0; 
+  background-color: var(--bg); 
+  z-index: 100; 
+  /* Garis batas di dalam box */
+  box-shadow: inset 0 -2px 0 var(--text-muted); 
+}
+.table-container td { background-color: var(--bg); border-bottom: 1px solid rgba(150,160,180,.1); }
+.table-container tr:last-child td { border-bottom: none; }
 .text-success { color: var(--success); font-weight: 800; }
 .text-danger { color: var(--danger); font-weight: 800; }
 .text-muted { color: var(--text-muted); font-weight: 700; }
+
+/* Lebar Kolom Tabel Hasil */
+.table-container th:nth-child(1) { width: 10%; }
+.table-container th:nth-child(2) { width: 20%; }
+.table-container th:nth-child(3) { width: 20%; }
+.table-container th:nth-child(4) { width: 15%; }
+.table-container th:nth-child(5) { width: 15%; }
+.table-container th:nth-child(6) { width: 20%; }
 
 /* ============================================================
    GURU DASHBOARD (MONITORING) 
@@ -235,31 +276,111 @@ tr:last-child td { border-bottom: none; }
   overflow: auto; 
   box-shadow: var(--shadow-in), 0 0 15px rgba(108, 140, 255, 0.1); 
   border-radius: var(--radius-lg); 
-  padding: 16px; 
+  padding: 0; 
   background: var(--bg); 
   border: 2px solid rgba(108, 140, 255, 0.3); 
+  position: relative;
 }
 body.dark-mode .monitoring-table-wrap { border: 2px solid rgba(108, 140, 255, 0.15); box-shadow: var(--shadow-in), 0 0 15px rgba(108, 140, 255, 0.05); }
 
-.monitoring-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
-.monitoring-table th { padding: 10px; font-size: 0.9rem; text-align: left; position: sticky; top: 0; background: var(--bg); z-index: 5; color: var(--text-muted); font-weight: 800; }
-.monitoring-table td { padding: 10px; background: var(--box-bg); border: none; box-shadow: var(--shadow-out-sm); }
-.monitoring-table tr td:first-child { border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
-.monitoring-table tr td:last-child { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.monitoring-table { width: 100%; border-collapse: collapse; text-align: center; table-layout: fixed; }
+.monitoring-table th { 
+  padding: 16px 12px; 
+  font-size: 0.9rem; 
+  background-color: var(--bg); 
+  color: var(--text-muted); 
+  font-weight: 800; 
+  position: sticky; 
+  top: 0; 
+  z-index: 100; 
+  text-align: center;
+  vertical-align: middle;
+  /* Garis batas di dalam box */
+  box-shadow: inset 0 -2px 0 var(--accent); 
+}
+.monitoring-table td { 
+  padding: 14px 12px; 
+  background: var(--bg); 
+  border-bottom: 1px solid rgba(150,160,180,.15);
+  vertical-align: middle; 
+  text-align: center;
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis;
+}
+.monitoring-table tr:last-child td { border-bottom: none; }
 
-.teacher-cell { display: flex; gap: 6px; flex-wrap: wrap; max-width: 200px; }
-.q-box { width: 24px; height: 24px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; box-shadow: var(--shadow-in-sm); background: var(--bg); color: var(--text-muted); }
-.q-box.ans { background: var(--success); color: #fff; box-shadow: none; }
-.q-box.ragu { background: var(--warning); color: #fff; box-shadow: none; }
-.q-box.empty { background: transparent; box-shadow: inset 1px 1px 3px #BEC8D2, inset -1px -1px 3px #FFFFFF; color: transparent; }
-body.dark-mode .q-box.empty { box-shadow: inset 1px 1px 3px #141619, inset -1px -1px 3px #282C33; }
+/* Lebar Kolom Tabel Guru (Simetris) */
+.monitoring-table th:nth-child(1) { width: 18%; } /* Nama */
+.monitoring-table th:nth-child(2) { width: 15%; } /* Status */
+.monitoring-table th:nth-child(3) { width: 37%; } /* Jawaban */
+.monitoring-table th:nth-child(4) { width: 10%; } /* Keluar */
+.monitoring-table th:nth-child(5) { width: 10%; } /* Score */
+.monitoring-table th:nth-child(6) { width: 10%; } /* Aksi */
 
-.status-badge { padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 900; text-transform: uppercase; white-space: nowrap; }
-.status-badge.not-started { background: transparent; color: var(--text-muted); }
-.status-badge.online { background: rgba(108, 140, 255, 0.15); color: var(--accent-dark); }
-.status-badge.working { background: rgba(108, 140, 255, 0.25); color: var(--accent-dark); border: 1px solid var(--accent); }
-.status-badge.submitted { background: rgba(16, 185, 129, 0.15); color: #059669; }
-.status-badge.locked { background: rgba(239, 68, 68, 0.15); color: var(--danger); animation: pulse 2s infinite; }
+/* DESAIN BOX JAWABAN GURU (GRID 10 KOLOM) */
+.teacher-cell-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Memastikan isi di tengah */
+  justify-content: center;
+  gap: 6px;
+  margin: 0 auto;
+}
+.teacher-cell-title {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--accent-dark);
+  margin-bottom: 2px;
+}
+.teacher-cell { 
+  display: grid; 
+  grid-template-columns: repeat(10, 1fr); 
+  gap: 4px; 
+  max-width: 320px; 
+  max-height: 85px; 
+  overflow-y: auto; 
+  padding: 6px; 
+  border-radius: 6px;
+  background: var(--bg);
+  box-shadow: inset 2px 2px 5px #BEC8D2, inset -2px -2px 5px #FFFFFF;
+  position: relative;
+  z-index: 1;
+}
+body.dark-mode .teacher-cell { box-shadow: inset 2px 2px 5px #141619, inset -2px -2px 5px #282C33; }
+
+.teacher-cell::-webkit-scrollbar { width: 4px; }
+.teacher-cell::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 4px; }
+
+/* RE-DESIGN 3D BOX (TIMBUL / CEKUNG) */
+.q-box { width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 800; }
+.q-box.ans { background: var(--success); color: #fff; box-shadow: 2px 2px 4px rgba(16, 185, 129, 0.4), -2px -2px 4px #FFFFFF; }
+body.dark-mode .q-box.ans { box-shadow: 2px 2px 4px rgba(0,0,0,0.4), -2px -2px 4px rgba(255,255,255,0.05); }
+.q-box.ragu { background: var(--warning); color: #fff; box-shadow: 2px 2px 4px rgba(245, 158, 11, 0.4), -2px -2px 4px #FFFFFF; }
+body.dark-mode .q-box.ragu { box-shadow: 2px 2px 4px rgba(0,0,0,0.4), -2px -2px 4px rgba(255,255,255,0.05); }
+.q-box.empty { background: var(--bg); box-shadow: inset 2px 2px 5px #BEC8D2, inset -2px -2px 5px #FFFFFF; color: var(--text-muted); }
+body.dark-mode .q-box.empty { box-shadow: inset 2px 2px 5px #141619, inset -2px -2px 5px #282C33; }
+
+/* MODERN STATUS BADGE & SCORE (HIGH CONTRAST, NO BOX) */
+.status-pill { 
+  padding: 6px 12px; 
+  border-radius: 20px; 
+  font-size: 0.75rem; 
+  font-weight: 900; 
+  text-transform: uppercase; 
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 90px; /* Lebar minimum agar sejajar saat "-" */
+}
+.status-pill.not-started { background: rgba(150,160,180,0.15); color: var(--text-muted); }
+.status-pill.online { background: rgba(59, 130, 246, 0.15); color: #2563EB; }
+.status-pill.working { background: rgba(59, 130, 246, 0.15); color: #2563EB; }
+.status-pill.submitted { background: rgba(16, 185, 129, 0.15); color: #059669; }
+.status-pill.locked { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+
+.score-text { font-size: 1.4rem; font-weight: 900; color: var(--accent-dark); }
+.exit-text { font-size: 1.1rem; font-weight: 900; color: var(--danger); }
 
 .teacher-tools { display: flex; flex-direction: column; gap: 20px; }
 .code-box { font-family: 'Courier New', monospace; font-size: 1.5rem; font-weight: 900; text-align: center; color: var(--accent-dark); letter-spacing: 2px; padding: 15px; background: var(--bg); border-radius: var(--radius-sm); box-shadow: var(--shadow-in-sm); margin: 10px 0; }
@@ -293,9 +414,48 @@ select.input { appearance: none; cursor: pointer; }
 .hidden { display: none !important; }
 .mt-16 { margin-top: 16px; }
 .mt-24 { margin-top: 24px; }
+
+/* TOAST NOTIFICATION */
+#toastContainer {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+.toast {
+  background: var(--text);
+  color: var(--bg);
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.toast.success { background: var(--success); color: #fff; }
+.toast.error { background: var(--danger); color: #fff; }
+.toast.info { background: var(--accent); color: #fff; }
 </style>
 </head>
 <body>
+
+<!-- TOAST CONTAINER -->
+<div id="toastContainer"></div>
 
 <!-- OVERLAY RESUME EXAM (UNTUK MENCEGAH LOCKOUT SAAT REFRESH) -->
 <div id="resumeOverlay" style="display:none; position:fixed; inset:0; background:var(--bg); z-index:9999; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px;">
@@ -303,6 +463,19 @@ select.input { appearance: none; cursor: pointer; }
   <h2 style="font-size:1.8rem; font-weight:900; color:var(--text); margin-bottom:10px;">Sesi Ujian Terdeteksi</h2>
   <p style="color:var(--text-muted); margin-bottom:30px; max-width:400px;">Halaman telah dimuat ulang. Silakan klik tombol di bawah ini untuk kembali masuk ke mode layar penuh dan melanjutkan ujian.</p>
   <button class="btn btn-primary" style="font-size:1.2rem; padding:15px 40px;" onclick="resumeExamSession()">Kembali ke Fullscreen & Lanjutkan</button>
+</div>
+
+<!-- MODAL AUTO SUBMIT (WAKTU HABIS) -->
+<div class="modal-overlay" id="autoSubmitModal" style="z-index: 600;">
+  <div class="modal" style="text-align: center; border: 2px solid var(--danger); box-shadow: 0 0 30px rgba(239, 68, 68, 0.4);">
+    <div style="font-size: 4rem; margin-bottom: 10px;">⏱</div>
+    <h2 style="color: var(--danger); font-size: 1.8rem; margin-bottom: 10px;">Waktu Habis!</h2>
+    <p style="font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; color: var(--text);">
+      Waktu ujian telah berakhir. Jawaban Anda telah dikumpulkan secara otomatis oleh sistem.
+    </p>
+    <div style="border-bottom: 2px solid rgba(150,160,180,0.2); margin-bottom: 20px;"></div>
+    <button class="btn btn-primary btn-block" style="padding: 15px; font-size: 1.1rem;" onclick="proceedAutoSubmit()">Lihat Hasil Ujian</button>
+  </div>
 </div>
 
 <!-- MODAL NOTIFIKASI GURU (POP-UP SISWA KELUAR) -->
@@ -383,7 +556,6 @@ select.input { appearance: none; cursor: pointer; }
       <button class="icon-btn" onclick="adjustFontSize(-1)">A-</button>
       <button class="icon-btn" onclick="adjustFontSize(1)">A+</button>
       <button class="icon-btn" id="btnDarkPortal" onclick="toggleDarkMode()">☀</button>
-      <!-- Tombol Keluar (Logout) -->
       <button class="btn btn-danger" style="padding: 8px 16px; margin-left: 8px;" onclick="logoutStudent()">Keluar</button>
     </div>
   </div>
@@ -839,6 +1011,30 @@ function generateSessionId() {
   return Date.now().toString(36) + Math.random().toString(36).substring(2);
 }
 
+// FUNGSI TOAST BARU (PENGGANTI ALERT)
+function showToast(message, type = 'success') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  
+  // Icon berdasarkan tipe
+  let icon = 'ℹ️';
+  if (type === 'success') icon = '✅';
+  if (type === 'error') icon = '❌';
+
+  toast.innerHTML = `<span>${icon}</span> ${message}`;
+  container.appendChild(toast);
+  
+  // Trigger animation
+  setTimeout(() => toast.classList.add('show'), 10);
+  
+  // Hapus setelah 3 detik
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
 // ============================================================
 // LOGIN & ROUTING
 // ============================================================
@@ -865,9 +1061,16 @@ function handleLogin(e) {
   const db = getDB();
   const studentData = db[user.nisn];
 
+  // FITUR BARU: CEK JIKA SUDAH SUBMIT (Hanya sekali mengerjakan)
+  if (studentData && studentData.status === 'submitted') {
+    err.textContent = '❌ Akun ini sudah menyelesaikan ujian. Tidak dapat masuk lagi.';
+    err.classList.add('show');
+    return;
+  }
+
   // CEK SINGLE LOGIN (Memblokir Perangkat Kedua)
   if (studentData && studentData.sessionId && studentData.status !== 'submitted') {
-    err.textContent = '❌ Akun ini sedang aktif di perangkat lain. Hubungi pengawas untuk reset.';
+    err.textContent = '❌ Akun ini sedang aktif di perangkat lain. Minta pengawas untuk melakukan Kick.';
     err.classList.add('show');
     return;
   }
@@ -983,8 +1186,18 @@ function loadStudentState() {
     if (!state.user) return false;
 
     const db = getDB();
-    if (db[state.user.nisn] && db[state.user.nisn].sessionId !== state.sessionId) {
-      alert('⚠️ Sesi Anda telah dihentikan oleh pengawas atau login di perangkat lain.');
+    const studentData = db[state.user.nisn];
+
+    // FITUR BARU: CEGAH MASUK JIKA SUDAH SUBMIT (Bahkan jika refresh)
+    if (studentData && studentData.status === 'submitted') {
+      showToast('Anda sudah menyelesaikan ujian.', 'error');
+      localStorage.removeItem(LS_STUDENT_STATE);
+      return false;
+    }
+
+    // CEK KICK (Session berubah)
+    if (studentData && studentData.sessionId !== state.sessionId) {
+      showToast('⚠️ Sesi Anda telah dihentikan oleh pengawas.', 'error');
       localStorage.removeItem(LS_STUDENT_STATE);
       return false;
     }
@@ -1088,12 +1301,14 @@ function loadQuestionsFromStorage(showAlert = false) {
     document.getElementById('portalTotalSoal').textContent = QUESTIONS.length;
   }
   if (showAlert) {
-    alert('✅ Soal berhasil diperbarui dari Bank Soal Guru!');
+    // Hilangkan alert, ganti dengan fungsi re-render dan toast
     if (document.getElementById('screen-exam').classList.contains('active')) {
       if (state.currentIndex >= QUESTIONS.length) state.currentIndex = 0;
       renderQuestion(true);
       buildSoalGrid();
       updateProgressBadge();
+      showToast('Soal berhasil diperbarui!');
+      requestFullscreen(); // Langsung paksa full screen
     }
   }
 }
@@ -1122,11 +1337,12 @@ function startTimerUI() {
   updateTimerDisplay();
   if (timerInterval) clearInterval(timerInterval);
   timerInterval = setInterval(() => {
-    // CEK SINGLE LOGIN
+    // CEK KICK DARI GURU (SINGLE LOGIN)
     const db = getDB();
     if (db[state.user.nisn] && db[state.user.nisn].sessionId !== state.sessionId) {
-      alert('⚠️ Sesi Anda telah dihentikan oleh pengawas atau login di perangkat lain.');
+      showToast('Sesi Anda telah dihentikan oleh pengawas.', 'error');
       stopTimer();
+      localStorage.removeItem(LS_STUDENT_STATE); // Hapus agar tidak resume
       showScreen('screen-login');
       return;
     }
@@ -1178,7 +1394,20 @@ function showTimeWarning(type) {
   setTimeout(() => modal.classList.remove('show'), 5000);
 }
 function closeTimeWarning() { document.getElementById('timeWarningModal').classList.remove('show'); }
-function autoSubmit() { alert('⏱ Waktu habis! Ujian otomatis dikumpulkan.'); submitExam(true); }
+
+// FUNGSI BARU UNTUK AUTO SUBMIT DENGAN POPUP HALAMAN SENDIRI
+function autoSubmit() { 
+  if (!state.examFinished) {
+    stopTimer();
+    // Tampilkan Modal Auto Submit Khusus
+    document.getElementById('autoSubmitModal').classList.add('show');
+  }
+}
+
+function proceedAutoSubmit() {
+  document.getElementById('autoSubmitModal').classList.remove('show');
+  submitExam(true);
+}
 
 function renderQuestion(skipResetTime = false) {
   if (QUESTIONS.length === 0) return;
@@ -1327,8 +1556,14 @@ function closeSubmitModal() { document.getElementById('submitModal').classList.r
 
 function submitExam(force = false) { 
   if (!force) {
-    if (Object.keys(state.answers).length < QUESTIONS.length) { alert('❌ Masih ada soal kosong!'); return; }
-    if (state.flagged.length > 0) { alert('❌ Masih ada soal ditandai ragu!'); return; }
+    if (Object.keys(state.answers).length < QUESTIONS.length) { 
+      showToast('❌ Masih ada soal kosong!', 'error'); 
+      return; 
+    }
+    if (state.flagged.length > 0) { 
+      showToast('❌ Masih ada soal ditandai ragu!', 'error'); 
+      return; 
+    }
   }
 
   closeSubmitModal(); 
@@ -1354,7 +1589,7 @@ function submitExam(force = false) {
     db[state.user.nisn].score = score;
     db[state.user.nisn].qTimeData = state.qTimeData;
     db[state.user.nisn].qHistoryData = state.qHistoryData;
-    db[state.user.nisn].sessionId = null; // Clear session agar bisa login lihat hasil
+    db[state.user.nisn].sessionId = null; 
     saveDB(db);
   }
 
@@ -1473,7 +1708,9 @@ function submitAdminCode() {
   }
 
   if (state.examFinished) {
-    closeAdminModal(); alert('Waktu ujian telah habis.'); return;
+    closeAdminModal(); 
+    showToast('Waktu ujian telah habis.', 'error'); 
+    return;
   }
   
   state.isLocked = false;
@@ -1481,7 +1718,7 @@ function submitAdminCode() {
   saveStudentState(); 
   
   closeAdminModal(); 
-  alert('✅ Sesi berhasil dibuka. Ujian dilanjutkan.');
+  showToast('✅ Sesi berhasil dibuka. Ujian dilanjutkan.', 'success');
   
   timeRemaining = state.timeRemaining;
   startTimerUI();
@@ -1525,23 +1762,27 @@ function renderGuruDashboard() {
 
     let statusText = '-';
     let statusClass = 'not-started';
-    if (data.status === 'online') { statusText = 'Siap (Portal)'; statusClass = 'online'; }
+    if (data.status === 'online') { statusText = 'Siap'; statusClass = 'online'; }
     else if (data.status === 'working') { statusText = 'Mengerjakan'; statusClass = 'working'; }
     else if (data.status === 'submitted') { statusText = 'Terkirim'; statusClass = 'submitted'; }
     else if (data.status === 'locked') { statusText = 'Keluar (⚠️)'; statusClass = 'locked'; }
 
-    let boxesHtml = '<div class="teacher-cell">';
+    // Grid Jawaban yang lebih rapi
+    const answeredCount = Object.keys(data.answers || {}).length;
+    let boxesHtml = `<div class="teacher-cell-wrapper"><div class="teacher-cell-title">${answeredCount} / ${qSettings.length} Terjawab</div><div class="teacher-cell">`;
+    
     qSettings.forEach((q, idx) => {
-      if (idx >= 7) return; 
       let boxClass = 'empty';
       if (data.flagged && data.flagged.includes(q.id)) boxClass = 'ragu';
       else if (data.answers && data.answers[q.id]) boxClass = 'ans';
       
       boxesHtml += `<div class="q-box ${boxClass}">${idx+1}</div>`;
     });
-    boxesHtml += '</div>';
+    boxesHtml += '</div></div>';
 
-    let scoreHtml = data.status === 'submitted' ? `<strong style="color:var(--success); font-size:1.2rem;">${data.score}</strong>` : '-';
+    // TAMPILAN SCORE & KELUAR MODERN (TANPA KOTAK)
+    let scoreHtml = data.status === 'submitted' ? `<span class="score-text">${data.score}</span>` : '-';
+    let exitHtml = data.exitCount > 0 ? `<span class="exit-text">${data.exitCount}x</span>` : '-';
     
     let nameHtml = student.name;
     if (data.status === 'submitted') {
@@ -1557,11 +1798,11 @@ function renderGuruDashboard() {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${nameHtml}</td>
-      <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+      <td><span class="status-pill ${statusClass}">${statusText}</span></td>
       <td>${boxesHtml}</td>
-      <td style="text-align:center;">${data.exitCount > 0 ? `<span style="color:var(--danger);font-weight:800;">${data.exitCount}x</span>` : '-'}</td>
-      <td style="text-align:center;">${scoreHtml}</td>
-      <td style="text-align:center;">${actionHtml}</td>
+      <td>${exitHtml}</td>
+      <td>${scoreHtml}</td>
+      <td>${actionHtml}</td>
     `;
     tbody.appendChild(tr);
   });
@@ -1618,7 +1859,7 @@ function generateNewCodes() {
   settings.adminCode = generateRandomString(8);
   saveSettings(settings);
   updateCodeDisplays();
-  alert('✅ Token Ujian dan Admin Code berhasil diacak!');
+  showToast('Token & Admin Code berhasil diacak!', 'success'); // Ganti alert dengan toast
 }
 
 function updateCodeDisplays() {
@@ -1736,7 +1977,7 @@ function addTeacherQ() {
 
 function deleteTeacherQ() {
   if (teQuestions.length <= 1) {
-    alert("Minimal harus ada 1 soal dalam ujian.");
+    showToast('Minimal harus ada 1 soal dalam ujian.', 'error');
     return;
   }
   if (confirm("Yakin ingin menghapus soal ini?")) {
@@ -1754,7 +1995,7 @@ function saveAllTeacherQ() {
   settings.questions = teQuestions;
   saveSettings(settings);
   
-  alert('✅ Bank Soal berhasil disimpan! Siswa harus menekan tombol Refresh (↻) di halaman ujian untuk memuat soal ini.');
+  showToast('Bank Soal berhasil disimpan!', 'success'); // Ganti alert dengan toast
   closeEditorModal();
   renderGuruDashboard();
 }
@@ -1766,7 +2007,7 @@ document.addEventListener('keydown', (e) => {
   if (!document.getElementById('screen-exam').classList.contains('active') || document.getElementById('submitModal').classList.contains('show')) return;
   const keys = ['A', 'B', 'C', 'D', 'E'];
   if (keys.includes(e.key.toUpperCase())) selectAnswer(e.key.toUpperCase());
-  else if (e.key === 'ArrowRight' && document.getElementById('nextBtn').onclick) document.getElementById('nextBtn').click();
+  else if (e.key === 'ArrowRight' && document.getElementById('nextBtn').onclick) document.getElementById('nextBtn').onclick();
   else if (e.key === 'ArrowLeft') prevQuestion();
 });
 
