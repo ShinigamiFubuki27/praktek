@@ -34,7 +34,6 @@
   --radius-sm: 10px;
 }
 
-/* Mode Gelap */
 body.dark-mode {
   --bg:          #1E2126;
   --text:        #E2E8F0;
@@ -49,7 +48,7 @@ body.dark-mode {
   --shadow-out:    6px 6px 12px #141619, -6px -6px 12px #282C33;
   --shadow-out-sm: 4px 4px 8px #141619, -4px -4px 8px #282C33;
   --shadow-out-lg: 10px 10px 20px #141619, -10px -10px 20px #282C33;
-  --shadow-in:     inset 4px 4px 8px #141619, -4px -4px 8px #282C33;
+  --shadow-in:     inset 4px 4px 8px #141619, inset -4px -4px 8px #282C33;
   --shadow-in-sm:  inset 2px 2px 5px #141619, -2px -2px 5px #282C33;
 }
 
@@ -83,19 +82,8 @@ body.dark-mode::before { opacity: 0.05; }
 #screen-login.active, #screen-locked.active { display: flex; }
 
 /* KOMPONEN UMUM */
-.card {
-  background: var(--box-bg); border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-out); padding: 2.5rem 2rem;
-  position: relative; overflow: hidden; 
-}
-
-.btn {
-  font-family: inherit; font-weight: 700; font-size: 1rem; border: none;
-  border-radius: var(--radius); padding: 0.8rem 1.5rem;
-  background: var(--btn-bg); color: var(--text);
-  box-shadow: var(--shadow-out-sm); cursor: pointer; transition: all .2s;
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-}
+.card { background: var(--box-bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-out); padding: 2.5rem 2rem; position: relative; overflow: hidden; }
+.btn { font-family: inherit; font-weight: 700; font-size: 1rem; border: none; border-radius: var(--radius); padding: 0.8rem 1.5rem; background: var(--btn-bg); color: var(--text); box-shadow: var(--shadow-out-sm); cursor: pointer; transition: all .2s; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
 .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-out); }
 .btn:active { box-shadow: var(--shadow-in-sm); transform: translateY(0); }
 .btn:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
@@ -106,19 +94,10 @@ body.dark-mode .btn-primary { box-shadow: 4px 4px 10px rgba(0,0,0,.4), -4px -4px
 .btn-block { width: 100%; }
 
 .top-controls { display: flex; gap: 0.6rem; align-items: center; }
-.icon-btn {
-  width: 42px; height: 42px; border-radius: 50%; background: var(--btn-bg);
-  box-shadow: var(--shadow-out-sm); border: none; cursor: pointer; 
-  font-size: 1.1rem; font-weight: 800; color: var(--text); 
-  display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;
-}
+.icon-btn { width: 42px; height: 42px; border-radius: 50%; background: var(--btn-bg); box-shadow: var(--shadow-out-sm); border: none; cursor: pointer; font-size: 1.1rem; font-weight: 800; color: var(--text); display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
 .icon-btn:active { box-shadow: var(--shadow-in-sm); }
 
-.input {
-  width: 100%; font-family: inherit; font-size: 1rem; font-weight: 600;
-  color: var(--text); background: var(--bg); border: none; border-radius: var(--radius);
-  padding: 0.9rem 1.2rem; box-shadow: var(--shadow-in); outline: none;
-}
+.input { width: 100%; font-family: inherit; font-size: 1rem; font-weight: 600; color: var(--text); background: var(--bg); border: none; border-radius: var(--radius); padding: 0.9rem 1.2rem; box-shadow: var(--shadow-in); outline: none; }
 .input::placeholder { color: var(--text-muted); font-weight: 400; }
 .input:focus { box-shadow: var(--shadow-in), 0 0 0 2px var(--accent); }
 .label { font-size: 0.85rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 0.5rem; display: block; }
@@ -127,13 +106,7 @@ body.dark-mode .btn-primary { box-shadow: 4px 4px 10px rgba(0,0,0,.4), -4px -4px
 
 /* LOGIN SCREEN */
 .login-wrap { width: 100%; max-width: 400px; }
-.login-card { 
-  background: var(--box-bg); 
-  border-radius: var(--radius-lg); 
-  box-shadow: var(--shadow-out-lg), 0 0 20px rgba(108, 140, 255, 0.15); 
-  padding: 2.5rem 2rem; 
-  border: 2px solid rgba(108, 140, 255, 0.3);
-}
+.login-card { background: var(--box-bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-out-lg), 0 0 20px rgba(108, 140, 255, 0.15); padding: 2.5rem 2rem; border: 2px solid rgba(108, 140, 255, 0.3); }
 body.dark-mode .login-card { border: 2px solid rgba(108, 140, 255, 0.15); box-shadow: var(--shadow-out-lg), 0 0 20px rgba(108, 140, 255, 0.05); }
 
 .brand { text-align: center; margin-bottom: 2rem; }
@@ -257,7 +230,6 @@ tr:last-child td { border-bottom: none; }
 .monitoring-grid { display: grid; grid-template-columns: 2.5fr 1.2fr; gap: 24px; align-items: start; }
 @media (max-width: 1024px) { .monitoring-grid { grid-template-columns: 1fr; } }
 
-/* Table Wrap dengan Border Biru */
 .monitoring-table-wrap { 
   max-height: 600px; 
   overflow: auto; 
@@ -296,40 +268,13 @@ body.dark-mode .q-box.empty { box-shadow: inset 1px 1px 3px #141619, inset -1px 
    EDITOR SOAL MODAL (1 SOAL PER LAYAR)
    ============================================================ */
 #editorModal.modal-overlay { z-index: 400; }
-.editor-modal-content { 
-  max-width: 700px; 
-  width: 100%;
-  background: var(--box-bg); 
-  padding: 30px; 
-  border-radius: var(--radius-lg); 
-  box-shadow: var(--shadow-out-lg); 
-  max-height: 90vh;
-  overflow-y: auto;
-}
+.editor-modal-content { max-width: 700px; width: 100%; background: var(--box-bg); padding: 30px; border-radius: var(--radius-lg); box-shadow: var(--shadow-out-lg); max-height: 90vh; overflow-y: auto; }
 .editor-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; background: var(--bg); padding: 10px 20px; border-radius: var(--radius); box-shadow: var(--shadow-in-sm); }
 .editor-nav span { font-weight: 800; font-size: 1.1rem; }
-
-/* Diubah ke 1 Kolom agar lega */
 .options-list { display: flex; flex-direction: column; gap: 12px; }
 
 /* AUTO RESIZE TEXTAREA */
-.option-textarea {
-  width: 100%; 
-  font-family: inherit; 
-  font-size: 0.95rem; 
-  font-weight: 600;
-  color: var(--text); 
-  background: var(--bg); 
-  border: none; 
-  border-radius: var(--radius);
-  padding: 10px 14px; 
-  box-shadow: var(--shadow-in); 
-  outline: none;
-  min-height: 48px;
-  overflow-y: hidden; 
-  resize: none; 
-  line-height: 1.5;
-}
+.option-textarea { width: 100%; font-family: inherit; font-size: 0.95rem; font-weight: 600; color: var(--text); background: var(--bg); border: none; border-radius: var(--radius); padding: 10px 14px; box-shadow: var(--shadow-in); outline: none; min-height: 48px; overflow-y: hidden; resize: none; line-height: 1.5; }
 .option-textarea:focus { box-shadow: var(--shadow-in), 0 0 0 2px var(--accent); }
 select.input { appearance: none; cursor: pointer; }
 
@@ -358,6 +303,17 @@ select.input { appearance: none; cursor: pointer; }
   <h2 style="font-size:1.8rem; font-weight:900; color:var(--text); margin-bottom:10px;">Sesi Ujian Terdeteksi</h2>
   <p style="color:var(--text-muted); margin-bottom:30px; max-width:400px;">Halaman telah dimuat ulang. Silakan klik tombol di bawah ini untuk kembali masuk ke mode layar penuh dan melanjutkan ujian.</p>
   <button class="btn btn-primary" style="font-size:1.2rem; padding:15px 40px;" onclick="resumeExamSession()">Kembali ke Fullscreen & Lanjutkan</button>
+</div>
+
+<!-- MODAL NOTIFIKASI GURU (POP-UP SISWA KELUAR) -->
+<div class="modal-overlay" id="guruNotifModal" style="z-index: 500;">
+  <div class="modal" style="text-align: center; border: 2px solid var(--danger); box-shadow: 0 0 25px rgba(239, 68, 68, 0.3);">
+    <div style="font-size: 3rem; margin-bottom: 10px;">🚨</div>
+    <h2 id="guruNotifName" style="color: var(--danger); font-size: 1.5rem; margin-bottom: 5px;">Nama Siswa</h2>
+    <p id="guruNotifMsg" style="font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; color: var(--text);">Keluar ke-1</p>
+    <div style="border-bottom: 2px solid rgba(150,160,180,0.2); margin-bottom: 20px;"></div>
+    <button class="btn btn-primary btn-block" onclick="closeGuruNotif()">Tutup & Lanjutkan Monitoring</button>
+  </div>
 </div>
 
 <!-- LOGIN SCREEN -->
@@ -625,6 +581,7 @@ select.input { appearance: none; cursor: pointer; }
               <th>Jawaban</th>
               <th>Keluar</th>
               <th>Score</th>
+              <th>Aksi</th>
             </tr>
           </thead>
           <tbody id="guruTableBody">
@@ -703,7 +660,6 @@ select.input { appearance: none; cursor: pointer; }
 
     <div class="field mt-16">
       <label class="label">Kunci Jawaban</label>
-      <!-- OPSI BONUS DITAMBAHKAN DI SINI -->
       <select id="teQAnswer" class="input" style="padding: 12px 16px;">
         <option value="A">A</option>
         <option value="B">B</option>
@@ -790,7 +746,7 @@ let QUESTIONS = [...DEFAULT_QUESTIONS];
 
 // STATE SISWA (UJIAN)
 let state = { 
-  user: null, currentIndex: 0, answers: {}, flagged: [], 
+  user: null, sessionId: null, currentIndex: 0, answers: {}, flagged: [], 
   isLocked: false, examFinished: false, timeRemaining: 0, 
   qTimeData: {}, qHistoryData: {}, activeQId: null, activeStartTime: 0
 };
@@ -799,9 +755,10 @@ let warningShown3min = false, warningShown30sec = false;
 let isInitializing = true; 
 let waitingForResume = false; 
 
-// STATE GURU (EDITOR)
+// STATE GURU (EDITOR & NOTIF)
 let teQuestions = []; 
 let teIndex = 0;
+let teacherLastExitCounts = {}; 
 
 // ============================================================
 // MOCK DATABASE (MENGGUNAKAN LOCAL STORAGE)
@@ -828,7 +785,7 @@ function saveSettings(data) { localStorage.setItem(DB_SETTINGS_KEY, JSON.stringi
 
 function updateStudentDB(nisn, key, value) {
   let db = getDB();
-  if (!db[nisn]) db[nisn] = { name: STUDENTS.find(s=>s.nisn===nisn)?.name || 'Unknown', status: '-', answers: {}, flagged: [], exitCount: 0, score: null, qTimeData: {}, qHistoryData: {} };
+  if (!db[nisn]) db[nisn] = { name: STUDENTS.find(s=>s.nisn===nisn)?.name || 'Unknown', status: '-', answers: {}, flagged: [], exitCount: 0, score: null, qTimeData: {}, qHistoryData: {}, sessionId: null };
   db[nisn][key] = value;
   saveDB(db);
 }
@@ -878,6 +835,10 @@ function generateRandomString(length) {
   return result;
 }
 
+function generateSessionId() {
+  return Date.now().toString(36) + Math.random().toString(36).substring(2);
+}
+
 // ============================================================
 // LOGIN & ROUTING
 // ============================================================
@@ -900,14 +861,59 @@ function handleLogin(e) {
   // Cek Login Siswa
   const user = STUDENTS.find(u => u.nisn === username && u.password === pass);
   if (!user) { err.textContent = '❌ NISN/Username atau password salah.'; err.classList.add('show'); return; }
+
+  const db = getDB();
+  const studentData = db[user.nisn];
+
+  // CEK SINGLE LOGIN (Memblokir Perangkat Kedua)
+  if (studentData && studentData.sessionId && studentData.status !== 'submitted') {
+    err.textContent = '❌ Akun ini sedang aktif di perangkat lain. Hubungi pengawas untuk reset.';
+    err.classList.add('show');
+    return;
+  }
   
   err.classList.remove('show');
   state.user = user;
+  
+  // Generate Session ID Baru
+  const sid = generateSessionId();
+  state.sessionId = sid;
+  updateStudentDB(user.nisn, 'sessionId', sid);
+  
   document.getElementById('portalUser').textContent = `👤 ${user.name}`;
   document.getElementById('examUser').textContent = `${user.name}`;
   document.getElementById('examNisn').textContent = `${user.nisn}`;
   
-  // Status berubah menjadi 'online' (sudah login, tapi belum mulai ujian)
+  // Cek State di DB (jika sebelumnya terputus, bisa resume langsung)
+  if (studentData && studentData.status === 'working' && studentData.timeRemaining > 0) {
+    state = { ...state, ...studentData, user: user, sessionId: sid, isLocked: false, examFinished: false };
+    state.activeStartTime = Date.now();
+    
+    loadQuestionsFromStorage(false);
+    saveStudentState(); 
+    
+    showScreen('screen-exam');
+    renderQuestion(true); 
+    buildSoalGrid();
+    updateProgressBadge();
+    timeRemaining = state.timeRemaining;
+    updateTimerDisplay();
+    
+    waitingForResume = true;
+    document.getElementById('resumeOverlay').style.display = 'flex';
+    return;
+  }
+
+  if (studentData && studentData.status === 'locked') {
+    state = { ...state, ...studentData, user: user, sessionId: sid, isLocked: true };
+    document.getElementById('lockReason').textContent = 'Sesi Anda terkunci. Hubungi pengawas.';
+    showScreen('screen-locked');
+    timeRemaining = state.timeRemaining;
+    startTimerUI();
+    return;
+  }
+
+  // Jika fresh login
   updateStudentDB(user.nisn, 'status', 'online');
   showScreen('screen-portal');
   updatePortalButton();
@@ -921,7 +927,12 @@ function guruLogout() {
 
 function logoutStudent() {
   if (state.user) {
-    updateStudentDB(state.user.nisn, 'status', '-');
+    let db = getDB();
+    if (db[state.user.nisn] && db[state.user.nisn].sessionId === state.sessionId) {
+      db[state.user.nisn].sessionId = null;
+      if (db[state.user.nisn].status === 'online') db[state.user.nisn].status = '-';
+      saveDB(db);
+    }
   }
   backToLogin();
 }
@@ -933,7 +944,7 @@ function saveStudentState() {
   if (state.examFinished) return;
   
   const dataToSave = {
-    user: state.user, currentIndex: state.currentIndex, answers: state.answers,
+    user: state.user, sessionId: state.sessionId, currentIndex: state.currentIndex, answers: state.answers,
     flagged: state.flagged, timeRemaining: state.timeRemaining,
     qTimeData: state.qTimeData, qHistoryData: state.qHistoryData,
     activeQId: state.activeQId, activeStartTime: state.activeStartTime,
@@ -945,14 +956,17 @@ function saveStudentState() {
     let db = getDB();
     if (!db[state.user.nisn]) db[state.user.nisn] = {};
     db[state.user.nisn] = {
+      ...db[state.user.nisn], 
       name: state.user.name,
       status: state.isLocked ? 'locked' : (state.examFinished ? 'submitted' : 'working'),
       answers: state.answers,
       flagged: state.flagged,
-      exitCount: db[state.user.nisn]?.exitCount || 0,
       score: db[state.user.nisn]?.score || null,
       qTimeData: state.qTimeData,
-      qHistoryData: state.qHistoryData
+      qHistoryData: state.qHistoryData,
+      currentIndex: state.currentIndex,
+      timeRemaining: state.timeRemaining,
+      activeQId: state.activeQId
     };
     saveDB(db);
   }
@@ -968,6 +982,13 @@ function loadStudentState() {
     
     if (!state.user) return false;
 
+    const db = getDB();
+    if (db[state.user.nisn] && db[state.user.nisn].sessionId !== state.sessionId) {
+      alert('⚠️ Sesi Anda telah dihentikan oleh pengawas atau login di perangkat lain.');
+      localStorage.removeItem(LS_STUDENT_STATE);
+      return false;
+    }
+
     loadQuestionsFromStorage(false); 
 
     if (state.isLocked) {
@@ -978,14 +999,12 @@ function loadStudentState() {
       return true;
     }
 
-    // JIKA TIDAK TERKUNCI, TAPI ADA STATE UJIAN (BERARTI BARU REFRESH)
-    // Jangan jalankan timer dulu, munculkan overlay resume.
     waitingForResume = true;
     document.getElementById('resumeOverlay').style.display = 'flex';
     document.getElementById('examUser').textContent = state.user.name;
     document.getElementById('examNisn').textContent = state.user.nisn;
     timeRemaining = state.timeRemaining;
-    updateTimerDisplay(); // Tampilkan waktu diam dulu
+    updateTimerDisplay(); 
     
     renderQuestion(true); 
     buildSoalGrid();
@@ -1001,9 +1020,7 @@ function resumeExamSession() {
   waitingForResume = false;
   isInitializing = false;
   
-  // Karena baru refresh, reset activeStartTime agar waktu loading tidak masuk hitungan soal
   if (state.activeQId) state.activeStartTime = Date.now();
-  
   startTimerUI();
 }
 
@@ -1091,7 +1108,6 @@ function startExam() {
   state.timeRemaining = EXAM_DURATION_SECONDS;
   timeRemaining = EXAM_DURATION_SECONDS;
   
-  // Berubah jadi 'working' saat benar-benar mulai
   updateStudentDB(state.user.nisn, 'status', 'working');
   saveStudentState();
   
@@ -1106,6 +1122,15 @@ function startTimerUI() {
   updateTimerDisplay();
   if (timerInterval) clearInterval(timerInterval);
   timerInterval = setInterval(() => {
+    // CEK SINGLE LOGIN
+    const db = getDB();
+    if (db[state.user.nisn] && db[state.user.nisn].sessionId !== state.sessionId) {
+      alert('⚠️ Sesi Anda telah dihentikan oleh pengawas atau login di perangkat lain.');
+      stopTimer();
+      showScreen('screen-login');
+      return;
+    }
+
     timeRemaining--;
     state.timeRemaining = timeRemaining; 
     updateTimerDisplay();
@@ -1313,15 +1338,11 @@ function submitExam(force = false) {
   let correct = 0;
   let totalSoal = QUESTIONS.length;
 
-  // LOGIKA PENILAIAN BARU (TERMASUK BONUS)
   QUESTIONS.forEach((q) => { 
     const ans = state.answers[q.id];
-    if (ans) { // Jika soal dijawab
-      if (q.answer === 'BONUS') {
-        correct++; // Soal bonus selalu dianggap benar
-      } else if (ans === q.answer) {
-        correct++;
-      }
+    if (ans) { 
+      if (q.answer === 'BONUS') correct++; 
+      else if (ans === q.answer) correct++;
     }
   });
 
@@ -1333,6 +1354,7 @@ function submitExam(force = false) {
     db[state.user.nisn].score = score;
     db[state.user.nisn].qTimeData = state.qTimeData;
     db[state.user.nisn].qHistoryData = state.qHistoryData;
+    db[state.user.nisn].sessionId = null; // Clear session agar bisa login lihat hasil
     saveDB(db);
   }
 
@@ -1354,7 +1376,6 @@ function renderResult(userName, answers, timeData, historyData, qList, score) {
   let correct = 0, totalSeconds = 0;
   const answeredCount = Object.keys(answers).length;
   
-  // Hitung ulang untuk tabel
   qList.forEach((q) => {
     const ans = answers[q.id];
     if (ans && (q.answer === 'BONUS' || ans === q.answer)) correct++;
@@ -1389,7 +1410,6 @@ function renderResult(userName, answers, timeData, historyData, qList, score) {
     else if (isCorrect) labelHasil = '<span class="text-success">✅ Benar</span>';
     else labelHasil = '<span class="text-danger">❌ Salah</span>';
 
-    // Tampilkan label "BONUS" di kolom kunci
     const kunciTampil = q.answer === 'BONUS' ? 'BONUS' : q.answer;
 
     const tr = document.createElement('tr');
@@ -1422,7 +1442,7 @@ function renderResult(userName, answers, timeData, historyData, qList, score) {
 }
 
 function backToLogin() {
-  state = { user: null, currentIndex: 0, answers: {}, flagged: [], isLocked: false, examFinished: false, timeRemaining: 0, qTimeData: {}, qHistoryData: {}, activeQId: null, activeStartTime: 0 };
+  state = { user: null, sessionId: null, currentIndex: 0, answers: {}, flagged: [], isLocked: false, examFinished: false, timeRemaining: 0, qTimeData: {}, qHistoryData: {}, activeQId: null, activeStartTime: 0 };
   localStorage.removeItem(LS_STUDENT_STATE);
   document.getElementById('loginForm').reset(); 
   document.getElementById('inputToken').value = ''; 
@@ -1475,7 +1495,7 @@ function submitAdminCode() {
 }
 
 // ============================================================
-// GURU: DASHBOARD MONITORING LIVE
+// GURU: DASHBOARD MONITORING LIVE & NOTIFIKASI
 // ============================================================
 let guruInterval = null;
 
@@ -1495,8 +1515,14 @@ function renderGuruDashboard() {
   const qSettings = getSettings().questions || DEFAULT_QUESTIONS; 
 
   STUDENTS.forEach(student => {
-    const data = db[student.nisn] || { status: '-', answers: {}, flagged: [], exitCount: 0, score: null };
+    const data = db[student.nisn] || { status: '-', answers: {}, flagged: [], exitCount: 0, score: null, sessionId: null };
     
+    // POP-UP LOGIC
+    if (data.status === 'locked' && data.exitCount > (teacherLastExitCounts[student.nisn] || 0)) {
+      teacherLastExitCounts[student.nisn] = data.exitCount;
+      showGuruNotification(student.name, data.exitCount);
+    }
+
     let statusText = '-';
     let statusClass = 'not-started';
     if (data.status === 'online') { statusText = 'Siap (Portal)'; statusClass = 'online'; }
@@ -1522,6 +1548,12 @@ function renderGuruDashboard() {
       nameHtml = `<a href="#" onclick="teacherViewResult('${student.nisn}'); return false;" style="color:var(--accent-dark); text-decoration:underline; font-weight:800;">${student.name}</a>`;
     }
 
+    // TOMBOL KICK
+    let actionHtml = '-';
+    if (data.sessionId) {
+      actionHtml = `<button class="btn btn-danger" style="padding: 6px 12px; font-size: 0.8rem;" onclick="resetStudentSession('${student.nisn}')">Kick</button>`;
+    }
+
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${nameHtml}</td>
@@ -1529,11 +1561,32 @@ function renderGuruDashboard() {
       <td>${boxesHtml}</td>
       <td style="text-align:center;">${data.exitCount > 0 ? `<span style="color:var(--danger);font-weight:800;">${data.exitCount}x</span>` : '-'}</td>
       <td style="text-align:center;">${scoreHtml}</td>
+      <td style="text-align:center;">${actionHtml}</td>
     `;
     tbody.appendChild(tr);
   });
 
   updateCodeDisplays();
+}
+
+function resetStudentSession(nisn) {
+  if (!confirm('Yakin ingin mengeluarkan (logout paksa) siswa ini?\nSiswa dapat login kembali dan melanjutkan ujian.')) return;
+  let db = getDB();
+  if (db[nisn]) {
+    db[nisn].sessionId = null;
+    saveDB(db);
+    renderGuruDashboard();
+  }
+}
+
+function showGuruNotification(name, count) {
+  document.getElementById('guruNotifName').textContent = name;
+  document.getElementById('guruNotifMsg').textContent = `keluar ke ${count}`;
+  document.getElementById('guruNotifModal').classList.add('show');
+}
+
+function closeGuruNotif() {
+  document.getElementById('guruNotifModal').classList.remove('show');
 }
 
 function teacherViewResult(nisn) {
@@ -1601,7 +1654,6 @@ function openEditorModal() {
   teIndex = 0;
   renderTeacherEditor();
   
-  // Tambahkan event listener untuk auto-resize pada semua textarea di editor
   const textareas = document.querySelectorAll('.option-textarea');
   textareas.forEach(ta => {
     ta.addEventListener('input', function() { autoResizeTextarea(this); });
@@ -1632,10 +1684,9 @@ function renderTeacherEditor() {
   
   document.getElementById('teQAnswer').value = q.answer;
 
-  // Jalankan auto-resize saat data di-render
   const textareas = ['teQText', 'teOptA', 'teOptB', 'teOptC', 'teOptD', 'teOptE'];
   textareas.forEach(id => {
-    setTimeout(() => autoResizeTextarea(document.getElementById(id)), 10); // Delay kecil agar DOM siap
+    setTimeout(() => autoResizeTextarea(document.getElementById(id)), 10); 
   });
 }
 
