@@ -209,7 +209,7 @@ body.dark-mode .wm-tka { color: rgba(255, 255, 255, 0.02); }
 .btn-soal:active { box-shadow: var(--shadow-in-sm); transform: translateY(0); }
 .badge-progress { background: var(--accent); color: #fff; padding: 4px 10px; border-radius: 10px; font-size: 1rem; }
 
-.q-text { font-size: 1.4rem; line-height: 1.7; margin-bottom: 30px; font-weight: 600; }
+.q-text { font-size: 1.4rem; line-height: 1.7; margin-bottom: 30px; font-weight: 600; white-space: pre-line; }
 .options { display: flex; flex-direction: column; gap: 16px; margin-bottom: 30px; }
 .option { display: flex; align-items: center; gap: 20px; padding: 20px 28px; border-radius: var(--radius); box-shadow: var(--shadow-out-sm); cursor: pointer; transition: all .2s cubic-bezier(0.25, 0.8, 0.25, 1); background: var(--btn-bg); border: none; text-align: left; font-family: inherit; font-size: 1.25rem; color: var(--text); font-weight: 600; }
 .option:hover { transform: translateY(-2px); box-shadow: var(--shadow-out); }
@@ -620,7 +620,7 @@ body.dark-mode .inline-badge-icon {
     </div>
     <div class="card" style="padding: 24px; min-height: auto;">
       <h2 style="font-size:1.2rem; margin-bottom:16px;"><svg class="svg-icon title-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Keterangan Soal</h2>
-      <div class="info-row"><span>Total Soal</span><span id="portalTotalSoal">5</span></div>
+      <div class="info-row"><span>Total Soal</span><span id="portalTotalSoal">30</span></div>
       <div class="info-row"><span>Tipe Soal</span><span>Pilihan Ganda</span></div>
       <div class="info-row"><span>Durasi</span><span>5 menit (demo)</span></div>
       <div class="mt-24">
@@ -646,7 +646,7 @@ body.dark-mode .inline-badge-icon {
       
       <div class="paper-inner">
         <div class="card-header">
-          <div class="q-number">Soal <span id="qNumber">1</span> dari <span id="qTotal">5</span></div>
+          <div class="q-number">Soal <span id="qNumber">1</span> dari <span id="qTotal">30</span></div>
           <div class="timer-card" id="timerCard"><svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 05:00</div>
           
           <div class="header-actions">
@@ -656,7 +656,7 @@ body.dark-mode .inline-badge-icon {
               <button class="icon-btn" onclick="adjustFontSize(1)">A+</button>
               <button class="icon-btn" id="btnDarkExam" onclick="toggleDarkMode()"><svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
             </div>
-            <button class="btn-soal" onclick="openSoalPanel()"><svg class="svg-icon" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg> Daftar Soal <span class="badge-progress" id="progressBadge">0/5</span></button>
+            <button class="btn-soal" onclick="openSoalPanel()"><svg class="svg-icon" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg> Daftar Soal <span class="badge-progress" id="progressBadge">0/30</span></button>
           </div>
         </div>
 
@@ -1015,12 +1015,27 @@ function togglePasswordVisibility(inputId, iconElement) {
 
 function initDB() {
   if (!localStorage.getItem(DB_USERS_KEY)) localStorage.setItem(DB_USERS_KEY, JSON.stringify({}));
-  if (!localStorage.getItem(DB_SETTINGS_KEY)) {
+  const existing = localStorage.getItem(DB_SETTINGS_KEY);
+  if (!existing) {
     localStorage.setItem(DB_SETTINGS_KEY, JSON.stringify({
       token: 'TKA2025',
       adminCode: 'ADMIN2025',
       questions: DEFAULT_QUESTIONS
     }));
+  } else {
+    try {
+      const parsed = JSON.parse(existing);
+      if (!parsed.questions || parsed.questions.length !== DEFAULT_QUESTIONS.length) {
+        parsed.questions = DEFAULT_QUESTIONS;
+        localStorage.setItem(DB_SETTINGS_KEY, JSON.stringify(parsed));
+      }
+    } catch (e) {
+      localStorage.setItem(DB_SETTINGS_KEY, JSON.stringify({
+        token: 'TKA2025',
+        adminCode: 'ADMIN2025',
+        questions: DEFAULT_QUESTIONS
+      }));
+    }
   }
 }
 
