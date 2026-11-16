@@ -924,11 +924,52 @@ const STUDENTS = [
 ];
 
 const DEFAULT_QUESTIONS = [
-  { id: 1, text: 'Apa yang dimaksud dengan fotosintesis?', options: [{ key: 'A', text: 'Proses pernapasan tumbuhan' }, { key: 'B', text: 'Proses pembuatan makanan dengan cahaya' }, { key: 'C', text: 'Proses penguapan air' }, { key: 'D', text: 'Proses penyerapan mineral' }, { key: 'E', text: 'Proses pertumbuhan' }], answer: 'B' },
-  { id: 2, text: 'Hasil dari 12 × 8 adalah...', options: [{ key: 'A', text: '86' }, { key: 'B', text: '92' }, { key: 'C', text: '96' }, { key: 'D', text: '104' }, { key: 'E', text: '112' }], answer: 'C' },
-  { id: 3, text: 'Ibukota negara Indonesia adalah...', options: [{ key: 'A', text: 'Jakarta' }, { key: 'B', text: 'Bandung' }, { key: 'C', text: 'Surabaya' }, { key: 'D', text: 'Medan' }, { key: 'E', text: 'Makassar' }], answer: 'A' },
-  { id: 4, text: 'Planet terdekat dengan matahari adalah...', options: [{ key: 'A', text: 'Venus' }, { key: 'B', text: 'Bumi' }, { key: 'C', text: 'Merkurius' }, { key: 'D', text: 'Mars' }, { key: 'E', text: 'Jupiter' }], answer: 'C' },
-  { id: 5, text: 'Lambang unsur kimia untuk Emas adalah...', options: [{ key: 'A', text: 'Ag' }, { key: 'B', text: 'Au' }, { key: 'C', text: 'Fe' }, { key: 'D', text: 'Cu' }, { key: 'E', text: 'Pb' }], answer: 'B' }
+  { id: 1, text: 'Siapakah pencipta bahasa pemrograman C++?', options: [{ key: 'A', text: 'Dennis Ritchie' }, { key: 'B', text: 'Bjarne Stroustrup' }, { key: 'C', text: 'James Gosling' }, { key: 'D', text: 'Guido van Rossum' }, { key: 'E', text: 'Bill Gates' }], answer: 'B' },
+  { id: 2, text: 'Perintah untuk menampilkan teks ke layar pada C++ adalah ...', options: [{ key: 'A', text: 'cin' }, { key: 'B', text: 'input' }, { key: 'C', text: 'cout' }, { key: 'D', text: 'print' }, { key: 'E', text: 'scanf' }], answer: 'C' },
+  { id: 3, text: 'Tipe data yang digunakan untuk menyimpan bilangan bulat adalah ...', options: [{ key: 'A', text: 'float' }, { key: 'B', text: 'char' }, { key: 'C', text: 'double' }, { key: 'D', text: 'int' }, { key: 'E', text: 'bool' }], answer: 'D' },
+  { id: 4, text: 'Simbol untuk mengakhiri sebuah pernyataan dalam C++ adalah ...', options: [{ key: 'A', text: ':' }, { key: 'B', text: ',' }, { key: 'C', text: '.' }, { key: 'D', text: ';' }, { key: 'E', text: '!' }], answer: 'D' },
+  { id: 5, text: `Perhatikan kode berikut!
+int x = 10;
+int y = 5;
+cout << x + y;
+Hasil output dari program tersebut adalah ...`, options: [{ key: 'A', text: '5' }, { key: 'B', text: '10' }, { key: 'C', text: '15' }, { key: 'D', text: '20' }, { key: 'E', text: '50' }], answer: 'C' },
+  { id: 6, text: 'Bahasa pemrograman Python pertama kali dikembangkan oleh ...', options: [{ key: 'A', text: 'Bjarne Stroustrup' }, { key: 'B', text: 'Guido van Rossum' }, { key: 'C', text: 'Dennis Ritchie' }, { key: 'D', text: 'James Gosling' }, { key: 'E', text: 'Mark Zuckerberg' }], answer: 'B' },
+  { id: 7, text: 'Fungsi print() dalam Python digunakan untuk ...', options: [{ key: 'A', text: 'Menghapus data' }, { key: 'B', text: 'Memasukkan data' }, { key: 'C', text: 'Menampilkan output' }, { key: 'D', text: 'Menghentikan program' }, { key: 'E', text: 'Membuat folder' }], answer: 'C' },
+  { id: 8, text: 'Tipe data Python yang digunakan untuk menyimpan nilai benar atau salah adalah ...', options: [{ key: 'A', text: 'Integer' }, { key: 'B', text: 'String' }, { key: 'C', text: 'Float' }, { key: 'D', text: 'Boolean' }, { key: 'E', text: 'List' }], answer: 'D' },
+  { id: 9, text: `Perhatikan kode berikut!
+a = 12
+b = 4
+print(a / b)
+Hasil output program tersebut adalah ...`, options: [{ key: 'A', text: '2' }, { key: 'B', text: '3.0' }, { key: 'C', text: '4' }, { key: 'D', text: '8' }, { key: 'E', text: '16' }], answer: 'B' },
+  { id: 10, text: 'HTML merupakan singkatan dari ...', options: [{ key: 'A', text: 'Hyper Text Markup Language' }, { key: 'B', text: 'High Text Machine Language' }, { key: 'C', text: 'Hyper Transfer Markup Language' }, { key: 'D', text: 'Home Tool Markup Language' }, { key: 'E', text: 'Hyperlink Text Management Language' }], answer: 'A' },
+  { id: 11, text: 'Tag HTML yang digunakan untuk membuat judul terbesar adalah ...', options: [{ key: 'A', text: '<p>' }, { key: 'B', text: '<h1>' }, { key: 'C', text: '<h6>' }, { key: 'D', text: '<title>' }, { key: 'E', text: '<head>' }], answer: 'B' },
+  { id: 12, text: 'Tag HTML untuk menampilkan gambar adalah ...', options: [{ key: 'A', text: '<picture>' }, { key: 'B', text: '<image>' }, { key: 'C', text: '<img>' }, { key: 'D', text: '<src>' }, { key: 'E', text: '<photo>' }], answer: 'C' },
+  { id: 13, text: 'Atribut HTML yang digunakan untuk menentukan alamat tujuan hyperlink adalah ...', options: [{ key: 'A', text: 'src' }, { key: 'B', text: 'alt' }, { key: 'C', text: 'href' }, { key: 'D', text: 'class' }, { key: 'E', text: 'width' }], answer: 'C' },
+  { id: 14, text: 'CSS merupakan singkatan dari ...', options: [{ key: 'A', text: 'Computer Style Sheet' }, { key: 'B', text: 'Cascading Style Sheets' }, { key: 'C', text: 'Creative Style System' }, { key: 'D', text: 'Colorful Style Sheets' }, { key: 'E', text: 'Coding Style System' }], answer: 'B' },
+  { id: 15, text: 'Fungsi utama CSS adalah ...', options: [{ key: 'A', text: 'Mengatur tampilan dan desain halaman web' }, { key: 'B', text: 'Mengelola database' }, { key: 'C', text: 'Menghubungkan komputer ke internet' }, { key: 'D', text: 'Membuat sistem operasi' }, { key: 'E', text: 'Mengolah angka' }], answer: 'A' },
+  { id: 16, text: 'Properti CSS yang digunakan untuk mengubah warna teks adalah ...', options: [{ key: 'A', text: 'font-size' }, { key: 'B', text: 'background' }, { key: 'C', text: 'text-align' }, { key: 'D', text: 'color' }, { key: 'E', text: 'margin' }], answer: 'D' },
+  { id: 17, text: `Perhatikan kode CSS berikut!
+p {
+    color: blue;
+}
+Fungsi kode tersebut adalah ...`, options: [{ key: 'A', text: 'Mengubah latar belakang menjadi biru' }, { key: 'B', text: 'Mengubah warna teks paragraf menjadi biru' }, { key: 'C', text: 'Memperbesar ukuran paragraf' }, { key: 'D', text: 'Menghilangkan paragraf' }, { key: 'E', text: 'Membuat teks menjadi tebal' }], answer: 'B' },
+  { id: 18, text: 'JavaScript umumnya digunakan untuk ...', options: [{ key: 'A', text: 'Mengatur perangkat keras' }, { key: 'B', text: 'Membuat halaman web interaktif' }, { key: 'C', text: 'Mengatur jaringan LAN' }, { key: 'D', text: 'Mengganti sistem operasi' }, { key: 'E', text: 'Memperbaiki monitor' }], answer: 'B' },
+  { id: 19, text: 'Perintah untuk menampilkan output pada console JavaScript adalah ...', options: [{ key: 'A', text: 'print()' }, { key: 'B', text: 'cout()' }, { key: 'C', text: 'console.log()' }, { key: 'D', text: 'echo()' }, { key: 'E', text: 'display()' }], answer: 'C' },
+  { id: 20, text: 'Manakah berikut ini yang merupakan kata kunci untuk mendeklarasikan variabel JavaScript?', options: [{ key: 'A', text: 'integer' }, { key: 'B', text: 'variable' }, { key: 'C', text: 'define' }, { key: 'D', text: 'let' }, { key: 'E', text: 'string' }], answer: 'D' },
+  { id: 21, text: `Perhatikan kode berikut!
+let x = 10;
+let y = 3;
+console.log(x * y);
+Hasil output program tersebut adalah ...`, options: [{ key: 'A', text: '7' }, { key: 'B', text: '13' }, { key: 'C', text: '20' }, { key: 'D', text: '30' }, { key: 'E', text: '33' }], answer: 'D' },
+  { id: 22, text: 'LAN merupakan singkatan dari ...', options: [{ key: 'A', text: 'Local Area Network' }, { key: 'B', text: 'Large Access Network' }, { key: 'C', text: 'Long Area Node' }, { key: 'D', text: 'Local Access Number' }, { key: 'E', text: 'Limited Area Network' }], answer: 'A' },
+  { id: 23, text: 'Jaringan LAN biasanya digunakan pada area ...', options: [{ key: 'A', text: 'Antarnegara' }, { key: 'B', text: 'Antarbenua' }, { key: 'C', text: 'Sekolah dan kantor' }, { key: 'D', text: 'Seluruh dunia' }, { key: 'E', text: 'Luar angkasa' }], answer: 'C' },
+  { id: 24, text: 'Perangkat jaringan yang digunakan untuk menghubungkan beberapa komputer dalam jaringan LAN adalah ...', options: [{ key: 'A', text: 'Scanner' }, { key: 'B', text: 'Monitor' }, { key: 'C', text: 'Speaker' }, { key: 'D', text: 'Switch' }, { key: 'E', text: 'Proyektor' }], answer: 'D' },
+  { id: 25, text: 'Jenis kabel yang umum digunakan dalam jaringan LAN adalah ...', options: [{ key: 'A', text: 'HDMI' }, { key: 'B', text: 'UTP' }, { key: 'C', text: 'VGA' }, { key: 'D', text: 'RCA' }, { key: 'E', text: 'SATA' }], answer: 'B' },
+  { id: 26, text: 'Tiga komponen utama sistem komputer adalah ...', options: [{ key: 'A', text: 'Hardware, Software, Brainware' }, { key: 'B', text: 'Monitor, Keyboard, Mouse' }, { key: 'C', text: 'CPU, RAM, Harddisk' }, { key: 'D', text: 'Internet, Website, Browser' }, { key: 'E', text: 'Input, Proses, Jaringan' }], answer: 'A' },
+  { id: 27, text: 'Komponen komputer yang bertugas mengolah data dan menjalankan instruksi adalah ...', options: [{ key: 'A', text: 'Monitor' }, { key: 'B', text: 'Keyboard' }, { key: 'C', text: 'CPU' }, { key: 'D', text: 'Mouse' }, { key: 'E', text: 'Printer' }], answer: 'C' },
+  { id: 28, text: 'RAM merupakan memori komputer yang bersifat ...', options: [{ key: 'A', text: 'Permanen' }, { key: 'B', text: 'Sementara' }, { key: 'C', text: 'Tidak dapat diubah' }, { key: 'D', text: 'Hanya untuk gambar' }, { key: 'E', text: 'Hanya untuk suara' }], answer: 'B' },
+  { id: 29, text: 'Berikut ini yang termasuk perangkat input adalah ...', options: [{ key: 'A', text: 'Monitor' }, { key: 'B', text: 'Printer' }, { key: 'C', text: 'Speaker' }, { key: 'D', text: 'Keyboard' }, { key: 'E', text: 'Proyektor' }], answer: 'D' },
+  { id: 30, text: 'Berikut ini yang termasuk sistem operasi komputer adalah ...', options: [{ key: 'A', text: 'Microsoft Word' }, { key: 'B', text: 'Adobe Photoshop' }, { key: 'C', text: 'Windows' }, { key: 'D', text: 'Google Chrome' }, { key: 'E', text: 'CorelDRAW' }], answer: 'C' }
 ];
 
 let QUESTIONS = [...DEFAULT_QUESTIONS];
